@@ -485,6 +485,7 @@ function showWhatsNew() {
 async function run() {
     const msg = document.querySelector("#messageInput");
     let msgText = getSanitized(msg.value);
+    console.log(msgText)
     msg.value = "";
     document.getElementById('messageInput').style.height = "2.5rem"; //This will reset messageInput box to its normal size.
     if (msgText == "") {
@@ -527,7 +528,7 @@ async function run() {
         history: [
             {
                 role: "user",
-                parts: [{ text: `Personality Name: ${selectedPersonalityTitle}, Personality Description: ${selectedPersonalityDescription}, Personality Prompt: ${selectedPersonalityPrompt}. ${systemPrompt}` }]
+                parts: [{ text: `Writing Type: ${selectedPersonalityTitle}, Writing Description: ${selectedPersonalityDescription}, Personality Prompt: ${selectedPersonalityPrompt}. ${systemPrompt}` }]
             },
             {
                 role: "model",
