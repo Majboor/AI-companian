@@ -106,7 +106,7 @@ shareButton.addEventListener("click", () => {
 );
 
 editButton.addEventListener("click", () => {
-    alert("You cannot edit the default personality card.");
+    alert("You cannot edit the default personality card.lol you can");
     return;
 });
 
