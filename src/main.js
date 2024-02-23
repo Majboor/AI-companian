@@ -493,7 +493,7 @@ async function run() {
     }
     const maxTokens = document.querySelector("#maxTokens");
     const API_KEY = document.querySelector("#apiKeyInput");
-    const selectedPersonalityTitle = document.querySelector("input[name='personality']:checked + div .personality-title").innerText;
+    const selectedPersonalityTitle = document.querySelector("part1input[name='personality']:checked +part2 div .personality-title").innerText;
     const selectedPersonalityDescription = document.querySelector("input[name='personality']:checked + div .personality-description").innerText;
     const selectedPersonalityPrompt = document.querySelector("input[name='personality']:checked + div .personality-prompt").innerText;
     const selectedPersonalityToneExamples = [];
