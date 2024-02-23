@@ -59,18 +59,19 @@
                         </div>
                         <!-- Your existing HTML code for the personality card -->
 <div id="myPersonality" style="display: none;">
-    <label class="card-personality">
+    <label class="card-personality" id="card-personality-myPersonality">
         <input type="radio" name="personality" value="My Personality">
-        <div>
+        <div style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('YOUR_IMAGE_URL_HERE')">
             <h3 class="personality-title">My Personality</h3>
             <p class="personality-description">This is a description of my personality.</p>
             <p class="personality-prompt">Think about this prompt.</p>
         </div>
-        <button class="btn-textual btn-edit-card material-symbols-outlined" id="btn-edit-personality-My Personality">edit</button>
-        <button class="btn-textual btn-share-card material-symbols-outlined" id="btn-share-personality-My Personality">share</button>
-        <button class="btn-textual btn-delete-card material-symbols-outlined" id="btn-delete-personality-My Personality">delete</button>
+        <button class="btn-textual btn-edit-card material-symbols-outlined" id="btn-edit-personality-myPersonality">edit</button>
+        <button class="btn-textual btn-share-card material-symbols-outlined" id="btn-share-personality-myPersonality">share</button>
+        <button class="btn-textual btn-delete-card material-symbols-outlined" id="btn-delete-personality-myPersonality">delete</button>
     </label>
 </div>
+
 
                         <button class="btn-textual btn-edit-card material-symbols-outlined"
                             id="btn-edit-personality-default">edit</button>
