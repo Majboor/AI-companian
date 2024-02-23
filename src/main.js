@@ -581,3 +581,24 @@ async function run() {
 }
 
 //-------------------------------
+
+// Get the personality HTML element
+const myPersonalityElement = document.getElementById("myPersonality");
+
+// Extract the necessary information
+const personalityName = myPersonalityElement.querySelector(".personality-title").innerText;
+const personalityDescription = myPersonalityElement.querySelector(".personality-description").innerText;
+const personalityPrompt = myPersonalityElement.querySelector(".personality-prompt").innerText;
+const personalityImageURL = ""; // Extract image URL if it's set in the HTML
+
+// Create a JavaScript object representing the personality
+const myPersonality = {
+    name: personalityName,
+    description: personalityDescription,
+    prompt: personalityPrompt,
+    image: personalityImageURL // Set this to the actual image URL if it's available in the HTML
+};
+
+// Call the insertPersonality function with your personality object
+insertPersonality(myPersonality);
+
