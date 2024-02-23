@@ -367,47 +367,49 @@
     }
 
     .card-personality {
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-        color: #e4e4e4;
-        background-color: black;
-        background-size: cover;
-        background-position: center;
-        position: relative;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    color: #e4e4e4;
+    background-color: black;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    padding: 1rem;
+    border-radius: 1rem;
+    height: 10rem;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+    text-shadow: 0 0 10px #000000, 0 0 5px #181818;
+    transition: text-shadow 0.3s ease; /* Add transition for smooth effect */
+}
 
-        display: flex;
-        flex-direction: column;
-        justify-content: end;
-        padding: 1rem;
-        border-radius: 1rem;
-        height: 10rem;
-        -webkit-tap-highlight-color: transparent;
-        cursor: pointer;
-        text-shadow: 0 0 10px #000000, 0 0 5px #181818;
-    }
+.card-personality:hover {
+    text-shadow: 0 0 10px #e4e4e4, 0 0 5px #dfdfdf; /* Adjust text-shadow on hover */
+}
 
-    .edit:hover {
-        text-shadow: 0 0 10px #e4e4e4, 0 0 5px #dfdfdf;
-    }
+.edit:hover {
+    text-shadow: 0 0 10px #e4e4e4, 0 0 5px #dfdfdf; /* Adjust text-shadow on hover */
+}
 
+.card-personality * {
+    /* unselectable */
+    -webkit-user-select: none;
+    /* Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+/Edge */
+    user-select: none;
+    /* Standard */
+}
 
-    .card-personality * {
-        /* unselectable */
-        -webkit-user-select: none;
-        /* Safari */
-        -moz-user-select: none;
-        /* Firefox */
-        -ms-user-select: none;
-        /* IE10+/Edge */
-        user-select: none;
-        /* Standard */
-
-    }
-
-    .card-personality input {
-        display: none;
-    }
+.card-personality input {
+    display: none;
+}
 
     .btn-edit-card {
         /* top right corner */
