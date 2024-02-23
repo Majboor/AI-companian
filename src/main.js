@@ -540,6 +540,7 @@ async function run() {
 
     //create new message div for the user's message then append to message container's top
     const newMessage = document.createElement("div");
+    console.log(`${selectedPersonalityTitle}, Personality Description: ${selectedPersonalityDescription}, Personality Prompt: ${selectedPersonalityPrompt}. ${systemPrompt}`);
     newMessage.classList.add("message");
     newMessage.innerHTML = `
             <h3 class="message-role">You:</h3>
