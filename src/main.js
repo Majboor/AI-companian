@@ -528,7 +528,7 @@ async function run() {
         history: [
             {
                 role: "user",
-                parts: [{ text: `Writing Type: ${selectedPersonalityTitle}, Writing Description: ${selectedPersonalityDescription}, Personality Prompt: ${selectedPersonalityPrompt}. ${systemPrompt}` }]
+              parts: [{ text: `you are a writing bot made to write in the writing type: ${selectedPersonalityTitle}, you can only do the following actions: ${selectedPersonalityDescription} you are to make the user learn about: ${selectedPersonalityPrompt}. ${systemPrompt}` }]
             },
             {
                 role: "model",
