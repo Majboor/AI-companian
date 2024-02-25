@@ -2,7 +2,7 @@ import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
 import { HarmBlockThreshold, HarmCategory } from "https://esm.run/@google/generative-ai";
 
-const version = "0.1.3";
+const version = "0.1";
 
 //inputs
 const ApiKeyInput = document.querySelector("#apiKeyInput");
@@ -494,8 +494,13 @@ async function run() {
     const maxTokens = document.querySelector("#maxTokens");
     const API_KEY = document.querySelector("#apiKeyInput");
     const selectedPersonalityTitle = document.querySelector("input[name='personality']:checked + div .personality-title").innerText;
-    const selectedPersonalityDescription = document.querySelector("div .personality-description").innerText;
-    const selectedPersonalityPrompt = document.querySelector("input[name='personality']:checked + div .personality-prompt").innerText;
+    console.log(selectedPersonalityTitle)
+
+
+    const { steps, teach } = getPersonalityDetails(selectedPersonalityTitle);
+    console.log(`STEPS`,steps);
+    console.log(`teach`,teach);
+
     const selectedPersonalityToneExamples = [];
     //chat history
     let chatHistory = [];
@@ -512,27 +517,24 @@ async function run() {
     //reverse order of chat history
     chatHistory.reverse();
 
-    if (API_KEY.value == "") {
-        alert("Please enter an API key");
-        return;
-    }
+
 
     const generationConfig = {
         maxOutputTokens: maxTokens.value,
         temperature: 0.9
     };
-    const genAI = new GoogleGenerativeAI(API_KEY.value);
+    const genAI = new GoogleGenerativeAI('AIzaSyBKQQq8CLYwz_1Hogh-cGvy5gqk8l5uU8k');
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
     const chat = model.startChat({
         generationConfig, safetySettings,
         history: [
             {
                 role: "user",
-              parts: [{ text: `you are a writing bot made to write in the writing type: ${selectedPersonalityTitle}, you can only do the following actions: ${selectedPersonalityDescription} you are to make the user learn about: ${selectedPersonalityPrompt}. ${systemPrompt}` }]
+              parts: [{ text: `you are a writing bot,your inputs and outputs are limited to questions, Explanation, Assessment of users Writing Level,Feedback on Your Writing,Guidance on Improvement,Rewriting for Improvement,Collaborative Writing Exercise. YOu are required to use the following writing style: ${selectedPersonalityTitle}, you can only do the following actions: ${steps} .If you are not aware of the topic then ask about the topic.you are to make the user learn about: ${teach}. ${systemPrompt}` }]
             },
             {
                 role: "model",
-                parts: [{ text: `Okay. From now on, I shall play the role of ${selectedPersonalityTitle}. Your prompt and described personality will be used for the rest of the conversation.` }]
+                parts: [{ text: `Okay. From now on, I shall help the user write a ${selectedPersonalityTitle}. Your prompt and described steps to be taught will be used for the rest of the conversation. I will start by asking the user about his topic after inquring about the question  after which I will continue to go step by step one by one the steps being Explanation, Assessment of users Writing Level then I will provide Feedback on users Writing which will be a detailed examine of the users writing style after the examination I would ask if the user wants further Guidance on Improvement,if the user still fails to understand then Rewriting for Improvement would be ideal, I would encourage Collaborative Writing Exercise after it` }]
             },
             ...selectedPersonalityToneExamples,
             ...chatHistory
@@ -541,7 +543,7 @@ async function run() {
 
     //create new message div for the user's message then append to message container's top
     const newMessage = document.createElement("div");
-    console.log(`${selectedPersonalityTitle}, Personality Description: ${selectedPersonalityDescription}, Personality Prompt: ${selectedPersonalityPrompt}. ${systemPrompt}`);
+    console.log(`you are a writing bot made to write in the writing style: ${selectedPersonalityTitle}, you can only do the following actions: ${steps} you are to make the user learn about: ${teach}. ${systemPrompt}`);
     newMessage.classList.add("message");
     newMessage.innerHTML = `
             <h3 class="message-role">You:</h3>
@@ -591,7 +593,7 @@ const myPersonalityElement = document.getElementById("myPersonality");
 const personalityName = myPersonalityElement.querySelector(".personality-title").innerText;
 const personalityDescription = myPersonalityElement.querySelector(".personality-description").innerText;
 const personalityPrompt = myPersonalityElement.querySelector(".personality-prompt").innerText;
-const personalityImageURL = ""; // Extract image URL if it's set in the HTML
+const personalityImageURL = "https://www.seekpng.com/png/full/84-843473_creative-writing-clipart-creative-writing-creativity-creative-writing.png"; // Extract image URL if it's set in the HTML
 
 // Create a JavaScript object representing the personality
 const myPersonality = {
@@ -601,6 +603,12 @@ const myPersonality = {
     image: personalityImageURL // Set this to the actual image URL if it's available in the HTML
 };
 
+
 // Call the insertPersonality function with your personality object
 insertPersonality(myPersonality);
+
+// main.js
+
+
+
 

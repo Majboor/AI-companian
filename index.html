@@ -5,13 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>zodiac, by faetalize</title>
+    <title>Wirter, By Waleed Ajmal</title>
     <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/f/f0/Google_Bard_logo.svg"
         type="image/x-icon">
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github-dark.css">
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+    <script src="src/utils.js"></script>
     <link rel="stylesheet" href="./src/style.css">
 </head>
 
@@ -28,8 +29,8 @@
                 </button>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/Google_Bard_logo.svg" id="gemin-pro-logo">
                 <div id="title-div">
-                    <div id="zodiac-branding">zodiac </div>
-                    <div id="gemini-pro-branding">powered by Gemini Pro</div>
+                    <div id="zodiac-branding">Writer </div>
+                    <div id="gemini-pro-branding">Powered By Gemini Pro</div>
                 </div>
                 <button class="badge" id="btn-whatsnew">
                     <span id="badge-version"></span>
@@ -37,21 +38,19 @@
             </div>
             <div class="navbar">
                 <div class="navbar-tab">Personalities</div>
-                <div class="navbar-tab">Settings</div>
+                <div class="navbar-tab">Quick Start</div>
                 <div class="navbar-tab-highlight"></div>
             </div>
 
             <div id="sidebar-content">
-                <div class="sidebar-section" id="lol">
+                <div class="sidebar-section" id="card-personality">
                     <label class="card-personality" id="card-personality-default"
                         style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.fonearena.com/blog/wp-content/uploads/2023/12/Google-Gemini-AI-1024x577.jpg')">
                         <input type="radio" name="personality" value="zodiac" checked>
                         <div>
-                            <h3 class="personality-title">zodiac123</h3>
-                            <p class="personality-description">zodiac is a cheerful assistant, always ready to help you
-                                with
-                                your tasks.</p>
-                            <p class="personality-prompt">You are zodiac, a helpful assistant created by faetalize,
+                            <h3 class="personality-title">Help</h3>
+                            <p class="personality-description">what is this platform?</p>
+                            <p class="personality-prompt">You are zodiac, a helpful assistant created by Waleed,
                                 built
                                 upon Google's Gemini Pro model. Gemini Pro is a new LLM (Large Language Model) release
                                 by
@@ -61,9 +60,10 @@
 <div id="myPersonality" style="display: none;">
     <label class="card-personality" id="card-personality-myPersonality">
         <input type="radio" name="personality" value="Creative Writing bot">
-        <div style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('YOUR_IMAGE_URL_HERE')">
+        <div style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.fonearena.com/blog/wp-content/uploads/2023/12/Google-Gemini-AI-1024x577.jpg')">
             <h3 class="personality-title">Creative Writing</h3>
-            <p class="personality-description">1.make a question for the user to get a better understanding of the style of writing of the user or the level on which the user writes at. 2.write the user a sample paragraph on how to write on his topic</p>
+            <p class="personality-description">
+            Let Your Creativity Explode, learn grow create!</p>
             <p class="personality-prompt">how to write creatively</p>
         </div>
         <button class="btn-textual btn-edit-card material-symbols-outlined" id="btn-edit-personality-myPersonality">edit</button>
@@ -80,7 +80,7 @@
                     </label>
                     <div id="personalitiesDiv"></div>
                     <div class="btn-array" id="btn-array-personality-section">
-                        <button id="btn-add-personality">Add Personality</button>
+                        <button id="btn-add-personality">Create Your Own Style</button>
                         <button id="btn-import-personality">Import</button>
                         <button id="btn-clearall-personality">Clear All</button>
                     </div>
@@ -89,7 +89,7 @@
 
                 <div class="sidebar-section">
                     <input type="text" placeholder="Paste API key here" id="apiKeyInput" class="input-field"></input>
-                    <h3>Generation Settings:</h3>
+                    <h3>Step 1. Find a topic</h3>
                     <label for="maxTokens">Max Output Tokens:</label>
                     <input type="number" id="maxTokens" class="input-field" min="1" max="4000" value="1000"></input>
                     <label for="safetySettings">Safety Settings:</label>
@@ -99,12 +99,13 @@
                         <option value="risky">Risky</option>
                     </select>
                 </div>
+                
             </div>
 
 
             <div class="credits">
-                Made by fætalize
-                <a href="https://github.com/faetalize/zodiac">Source Code</a>
+                Made By Waleed Ajmal Built on Zodiac UI
+                <a href="https://github.com/mr.majboor">Source Code</a>
             </div>
         </div>
 
@@ -159,11 +160,11 @@
         </div>
 
         <div id="whats-new">
-            <h1 id="header-version">What's New in </h1>
+            <h1 id="header-version">Welcome to </h1>
             <ul id="changelog">
-                <li>Added ability to modify personalities</li>
-                <li>Added version badge</li>
-                <li>stability improvements</li>
+                <li>Ability to Create your own Writing Style</li>
+                <li>Share Created Styles</li>
+                <li>Stability</li>
             </ul>
         </div>
     </div>
