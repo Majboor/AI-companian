@@ -106,7 +106,7 @@ shareButton.addEventListener("click", () => {
 );
 
 editButton.addEventListener("click", () => {
-    alert("You cannot edit the default personality card.lol you can");
+    alert("triggered stuff");
     return;
 });
 
@@ -334,6 +334,11 @@ function insertPersonality(personalityJSON) {
                 id="btn-delete-personality-${personalityJSON.name}">delete</button>
             `;
 
+    // Add click event listener to the personality card
+    personalityCard.addEventListener("click", () => {
+        alert(`You clicked on ${personalityJSON.name}`);
+    });
+
     //insert personality card before the button array
     personalitiesDiv.append(personalityCard);
     darkenBg(personalityCard);
@@ -346,7 +351,7 @@ function insertPersonality(personalityJSON) {
     shareButton.addEventListener("click", () => {
         sharePersonality(personalityCard);
     });
-    
+
     //conditional because the default personality card doesn't have a delete button
     if(deleteButton){
         deleteButton.addEventListener("click", () => {
@@ -385,6 +390,7 @@ function insertPersonality(personalityJSON) {
         input.parentElement.style.outline = "3px solid rgb(150 203 236)";
     }
 }
+
 
 function setLocalPersonality(personalityJSON) {
     const savedPersonalities = JSON.parse(localStorage.getItem("personalities"));
