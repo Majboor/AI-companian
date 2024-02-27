@@ -334,11 +334,6 @@ function insertPersonality(personalityJSON) {
                 id="btn-delete-personality-${personalityJSON.name}">delete</button>
             `;
 
-    // Add click event listener to the personality card
-    personalityCard.addEventListener("click", () => {
-        alert(`You clicked on ${personalityJSON.name}`);
-    });
-
     //insert personality card before the button array
     personalitiesDiv.append(personalityCard);
     darkenBg(personalityCard);
@@ -389,7 +384,13 @@ function insertPersonality(personalityJSON) {
         lightenBg(input.parentElement);
         input.parentElement.style.outline = "3px solid rgb(150 203 236)";
     }
+
+    // Check if hash is #writing and personality name is "Creative Writing"
+    if (window.location.hash === '#writing' && personalityJSON.name === 'Creative Writing') {
+        personalityCard.click(); // Automatically click on the card
+    }
 }
+
 
 
 function setLocalPersonality(personalityJSON) {
