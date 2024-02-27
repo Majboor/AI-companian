@@ -659,4 +659,58 @@
     #btn-reset-chat:hover {
         background-color: #313131;
     }
+    .popup-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999; /* make sure it's on top */
+    }
+    
+    .popup-content {
+        background-color: #fff; /* white background */
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* box shadow */
+        max-width: 80%;
+        max-height: 80%;
+        overflow-y: auto;
+    }
+    
+    .popup-content,
+    .popup-content h2,
+    .popup-content p {
+        color: #333; /* Default text color */
+    }
+    
+    .popup-content h2 {
+        color: #007bff; /* Blue color for headings */
+    }
+    
+    .popup-content p {
+        color: #666; /* Gray color for paragraphs */
+    }
+    
+    /* Style for buttons */
+    .btn-next,
+    .btn-close {
+        margin-top: 10px;
+        padding: 8px 16px;
+        background-color: #007bff; /* Blue button */
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .btn-close {
+        background-color: #dc3545; /* Red button */
+    }
+    
+    
 

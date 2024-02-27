@@ -386,10 +386,84 @@ function insertPersonality(personalityJSON) {
     }
 
     // Check if hash is #writing and personality name is "Creative Writing"
-    if (window.location.hash === '#writing' && personalityJSON.name === 'Creative Writing') {
-        personalityCard.click(); // Automatically click on the card
+// Check for #writing hash in the URL and the personality name
+// Check for #writing hash in the URL and the personality name
+// Check for #writing hash in the URL and the personality name
+if (window.location.hash === '#writing' && personalityJSON.name === 'Creative Writing') {
+    // Call custom popup function
+    personalityCard.click();
+    showStylizedPopup();
+}
+
+function showStylizedPopup() {
+    // Create popupContainer dynamically
+    const popupContainer = document.createElement('div');
+    popupContainer.id = 'popupContainer';
+    popupContainer.className = 'popup-container';
+    
+    // Create popupContent dynamically
+    const popupContent = document.createElement('div');
+    popupContent.id = 'popupContent';
+    popupContent.className = 'popup-content';
+
+    // Add popupContent to popupContainer
+    popupContainer.appendChild(popupContent);
+
+    // Show the popup
+    popupContainer.style.display = 'flex';
+
+    // Add popupContainer to the body
+    document.body.appendChild(popupContainer);
+
+    // Function to close popup
+    function closePopup() {
+        popupContainer.style.display = 'none';
+    }
+
+    // Initially show Step 1 content
+    showStep1();
+
+    // Function to show Step 1 content
+    function showStep1() {
+        popupContent.innerHTML = `
+            <h2>How Do I Help?</h2>
+            <p>Welcome to the Creative Writing Companian!</p>
+            <p>I am not the normal GPT</p>
+            <button id="btnNext" class="btn-next">Next</button>
+            <button id="btnClose" class="btn-close">Close</button>
+        `;
+        document.getElementById('btnNext').addEventListener('click', showStep2);
+        document.getElementById('btnClose').addEventListener('click', closePopup);
+    }
+
+    // Function to show Step 2 content
+    function showStep2() {
+        popupContent.innerHTML = `
+            <h2>Sorry I Cant Write For You.</h2>
+            <p>We Write, Grow and Learn Together</p>
+            <button id="btnNext" class="btn-next">Next</button>
+            <button id="btnClose" class="btn-close">Close</button>
+        `;
+        document.getElementById('btnNext').addEventListener('click', showStep3);
+        document.getElementById('btnClose').addEventListener('click', closePopup);
+    }
+
+    function showStep3() {
+        popupContent.innerHTML = `
+            <h2>How we really write</h2>
+            <p>I can do</p>
+            <button id="btnClose" class="btn-close">Close</button>
+        `;
+        document.getElementById('btnClose').addEventListener('click', closePopup);
     }
 }
+
+
+}
+  
+    
+    
+
 
 
 
