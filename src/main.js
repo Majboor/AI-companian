@@ -250,151 +250,6 @@ function lightenBg(element) {
     element.style.backgroundImage = `url('${elementBackgroundImageURL}')`;
 }
 
-
-function navigateTo(tab) {
-    if (tab == tabs[currentTab]) {
-        return;
-    }
-    // set the highlight to match the size of the tab element
-
-
-    let tabIndex = [...tabs].indexOf(tab);
-    if (tabIndex < 0 || tabIndex >= sidebarViews.length) {
-        console.error("Invalid tab index: " + tabIndex);
-        return;
-    }
-
-    if (currentTab != undefined) {
-        hideElement(sidebarViews[currentTab]);
-    }
-    showElement(sidebarViews[tabIndex]);
-    currentTab = tabIndex;
-
-    tabHighlight.style.left = `calc(100% / ${tabs.length} * ${tabIndex})`;
-
-}
-
-function sharePersonality(personality) {
-    //export personality to json
-    const personalityJSON = {
-        name: personality.querySelector(".personality-title").innerText,
-        description: personality.querySelector(".personality-description").innerText,
-        prompt: personality.querySelector(".personality-prompt").innerText,
-        //base64 encode image
-        image: personality.style.backgroundImage.match(/url\((.*?)\)/)[1].replace(/('|")/g, '')
-    }
-    const personalityJSONString = JSON.stringify(personalityJSON);
-    //download
-    const element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(personalityJSONString));
-    element.setAttribute('download', `${personalityJSON.name}.json`);
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-}
-
-
-function showAddPersonalityForm() {
-    showElement(formsOverlay);
-    showElement(addPersonalityForm);
-}
-
-function showEditPersonalityForm() {
-    showElement(formsOverlay);
-    showElement(editPersonalityForm);
-}
-
-function closeOverlay() {
-    hideElement(formsOverlay);
-    hideElement(addPersonalityForm);
-    hideElement(editPersonalityForm);
-    hideElement(document.querySelector("#whats-new"));
-}
-
-
-function insertPersonality(personalityJSON) {
-    const personalitiesDiv = document.querySelector("#personalitiesDiv");
-    const personalityCard = document.createElement("label");
-
-    personalityCard.classList.add("card-personality");
-    personalityCard.style.backgroundImage = `url('${personalityJSON.image}')`;
-    personalityCard.innerHTML = `
-            <input type="radio" name="personality" value="${personalityJSON.name}">
-            <div>
-                <h3 class="personality-title">${personalityJSON.name}</h3>
-                <p class="personality-description">${personalityJSON.description}</p>
-                <p class="personality-prompt">${personalityJSON.prompt}</p>
-            </div>
-            <button class="btn-textual btn-edit-card material-symbols-outlined" 
-                id="btn-edit-personality-${personalityJSON.name}">edit</button>
-            <button class="btn-textual btn-share-card material-symbols-outlined" 
-                id="btn-share-personality-${personalityJSON.name}">share</button>
-            <button class="btn-textual btn-delete-card material-symbols-outlined"
-                id="btn-delete-personality-${personalityJSON.name}">delete</button>
-            `;
-
-    //insert personality card before the button array
-    personalitiesDiv.append(personalityCard);
-    darkenBg(personalityCard);
-
-    const shareButton = personalityCard.querySelector(".btn-share-card");
-    const deleteButton = personalityCard.querySelector(".btn-delete-card");
-    const editButton = personalityCard.querySelector(".btn-edit-card");
-    const input = personalityCard.querySelector("input");
-
-    shareButton.addEventListener("click", () => {
-        sharePersonality(personalityCard);
-    });
-
-    //conditional because the default personality card doesn't have a delete button
-    if(deleteButton){
-        deleteButton.addEventListener("click", () => {
-            deleteLocalPersonality(Array.prototype.indexOf.call(personalityCard.parentNode.children, personalityCard));
-            personalityCard.remove();
-        });
-    }
-
-    editButton.addEventListener("click", () => {
-        personalityToEditIndex = Array.prototype.indexOf.call(personalityCard.parentNode.children, personalityCard);
-        showEditPersonalityForm();
-        const personalityName = personalityCard.querySelector(".personality-title").innerText;
-        const personalityDescription = personalityCard.querySelector(".personality-description").innerText;
-        const personalityPrompt = personalityCard.querySelector(".personality-prompt").innerText;
-        const personalityImageURL = personalityCard.style.backgroundImage.match(/url\((.*?)\)/)[1].replace(/('|")/g, '');
-        document.querySelector("#form-edit-personality #personalityNameInput").value = personalityName;
-        document.querySelector("#form-edit-personality #personalityDescriptionInput").value = personalityDescription;
-        document.querySelector("#form-edit-personality #personalityPromptInput").value = personalityPrompt;
-        document.querySelector("#form-edit-personality #personalityImageURLInput").value = personalityImageURL;
-    });
-
-    input.addEventListener("change", () => {
-        // Darken all cards
-        [...personalityCards].forEach(card => {
-            card.style.outline = "0px solid rgb(150 203 236)";
-            darkenBg(card);
-        })
-        // Lighten selected card
-        input.parentElement.style.outline = "3px solid rgb(150 203 236)";
-        lightenBg(input.parentElement);
-    });
-
-    // Set initial outline
-    if (input.checked) {
-        lightenBg(input.parentElement);
-        input.parentElement.style.outline = "3px solid rgb(150 203 236)";
-    }
-
-    // Check if hash is #writing and personality name is "Creative Writing"
-// Check for #writing hash in the URL and the personality name
-// Check for #writing hash in the URL and the personality name
-// Check for #writing hash in the URL and the personality name
-if (window.location.hash === '#writing' && personalityJSON.name === 'Creative Writing') {
-    // Call custom popup function
-    personalityCard.click();
-    showStylizedPopup();
-}
-
 function showStylizedPopup() {
     // Create popupContainer dynamically
     const popupContainer = document.createElement('div');
@@ -457,6 +312,189 @@ function showStylizedPopup() {
         document.getElementById('btnClose').addEventListener('click', closePopup);
     }
 }
+
+function navigateTo(tab) {
+    if (tab == tabs[currentTab]) {
+        return;
+    }
+    // set the highlight to match the size of the tab element
+
+
+    let tabIndex = [...tabs].indexOf(tab);
+    if (tabIndex < 0 || tabIndex >= sidebarViews.length) {
+        console.error("Invalid tab index: " + tabIndex);
+        return;
+    }
+
+    if (currentTab != undefined) {
+        hideElement(sidebarViews[currentTab]);
+    }
+    showElement(sidebarViews[tabIndex]);
+    currentTab = tabIndex;
+
+    tabHighlight.style.left = `calc(100% / ${tabs.length} * ${tabIndex})`;
+
+}
+
+function sharePersonality(personality) {
+    //export personality to json
+    const personalityJSON = {
+        name: personality.querySelector(".personality-title").innerText,
+        description: personality.querySelector(".personality-description").innerText,
+        prompt: personality.querySelector(".personality-prompt").innerText,
+        //base64 encode image
+        image: personality.style.backgroundImage.match(/url\((.*?)\)/)[1].replace(/('|")/g, '')
+    }
+    const personalityJSONString = JSON.stringify(personalityJSON);
+    //download
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(personalityJSONString));
+    element.setAttribute('download', `${personalityJSON.name}.json`);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+}
+
+
+function showAddPersonalityForm() {
+    showElement(formsOverlay);
+    showElement(addPersonalityForm);
+}
+
+function showEditPersonalityForm() {
+    showElement(formsOverlay);
+    showElement(editPersonalityForm);
+}
+
+function closeOverlay() {
+    hideElement(formsOverlay);
+    hideElement(addPersonalityForm);
+    hideElement(editPersonalityForm);
+    hideElement(document.querySelector("#whats-new"));
+}
+
+function showDeploymentStatus(message) {
+    const alertContainer = document.createElement('div');
+    alertContainer.textContent = message;
+    alertContainer.style.position = 'fixed';
+    alertContainer.style.bottom = '10px';
+    alertContainer.style.left = '10px'; // Positioned on the left
+    alertContainer.style.backgroundColor = '#111'; // Grey background
+    alertContainer.style.color = '#fff'; // White font color
+    alertContainer.style.padding = '5px 10px';
+    alertContainer.style.borderRadius = '5px';
+    alertContainer.style.boxShadow = '0px 2px 5px rgba(0, 0, 0, 0.3)';
+    alertContainer.style.zIndex = '9999';
+    document.body.appendChild(alertContainer);
+
+    // Remove the alert after 3 seconds
+    setTimeout(function() {
+        alertContainer.remove();
+    }, 3000);
+}
+
+// Example usage:
+// showDeploymentStatus('Deployment in progress...');
+
+
+// Example usage:
+// showDeploymentStatus('Deployment in progress...');
+
+
+
+
+
+function insertPersonality(personalityJSON) {
+    const personalitiesDiv = document.querySelector("#personalitiesDiv");
+    const personalityCard = document.createElement("label");
+
+    personalityCard.classList.add("card-personality");
+    personalityCard.style.backgroundImage = `url('${personalityJSON.image}')`;
+    personalityCard.innerHTML = `
+            <input type="radio" name="personality" value="${personalityJSON.name}">
+            <div>
+                <h3 class="personality-title">${personalityJSON.name}</h3>
+                <p class="personality-description">${personalityJSON.description}</p>
+                <p class="personality-prompt">${personalityJSON.prompt}</p>
+            </div>
+            <button class="btn-textual btn-edit-card material-symbols-outlined" 
+                id="btn-edit-personality-${personalityJSON.name}">edit</button>
+            <button class="btn-textual btn-share-card material-symbols-outlined" 
+                id="btn-share-personality-${personalityJSON.name}">share</button>
+            <button class="btn-textual btn-delete-card material-symbols-outlined"
+                id="btn-delete-personality-${personalityJSON.name}">delete</button>
+            `;
+
+       // Add click event listener to the personality card
+    personalityCard.addEventListener("click", () => {        
+        console.log(personalityJSON.name)     
+        // Example usage:
+        showDeploymentStatus(`You Are in ${personalityJSON.name} Mode`);   
+    });
+            
+    //insert personality card before the button array
+    personalitiesDiv.append(personalityCard);
+    darkenBg(personalityCard);
+
+    const shareButton = personalityCard.querySelector(".btn-share-card");
+    const deleteButton = personalityCard.querySelector(".btn-delete-card");
+    const editButton = personalityCard.querySelector(".btn-edit-card");
+    const input = personalityCard.querySelector("input");
+
+    shareButton.addEventListener("click", () => {
+        sharePersonality(personalityCard);
+    });
+
+    //conditional because the default personality card doesn't have a delete button
+    if(deleteButton){
+        deleteButton.addEventListener("click", () => {
+            deleteLocalPersonality(Array.prototype.indexOf.call(personalityCard.parentNode.children, personalityCard));
+            personalityCard.remove();
+        });
+    }
+
+    editButton.addEventListener("click", () => {
+        personalityToEditIndex = Array.prototype.indexOf.call(personalityCard.parentNode.children, personalityCard);
+        showEditPersonalityForm();
+        const personalityName = personalityCard.querySelector(".personality-title").innerText;
+        const personalityDescription = personalityCard.querySelector(".personality-description").innerText;
+        const personalityPrompt = personalityCard.querySelector(".personality-prompt").innerText;
+        const personalityImageURL = personalityCard.style.backgroundImage.match(/url\((.*?)\)/)[1].replace(/('|")/g, '');
+        document.querySelector("#form-edit-personality #personalityNameInput").value = personalityName;
+        document.querySelector("#form-edit-personality #personalityDescriptionInput").value = personalityDescription;
+        document.querySelector("#form-edit-personality #personalityPromptInput").value = personalityPrompt;
+        document.querySelector("#form-edit-personality #personalityImageURLInput").value = personalityImageURL;
+    });
+
+    input.addEventListener("change", () => {
+        // Darken all cards
+        [...personalityCards].forEach(card => {
+            card.style.outline = "0px solid rgb(150 203 236)";
+            darkenBg(card);
+        })
+        // Lighten selected card
+        input.parentElement.style.outline = "3px solid rgb(150 203 236)";
+        lightenBg(input.parentElement);
+    });
+
+    // Set initial outline
+    if (input.checked) {
+        lightenBg(input.parentElement);
+        input.parentElement.style.outline = "3px solid rgb(150 203 236)";
+    }
+
+    // Check if hash is #writing and personality name is "Creative Writing"
+// Check for #writing hash in the URL and the personality name
+// Check for #writing hash in the URL and the personality name
+// Check for #writing hash in the URL and the personality name
+if (window.location.hash === '#writing' && personalityJSON.name === 'Creative Writing') {
+    // Call custom popup function
+    personalityCard.click();
+    showStylizedPopup();
+}
+
+
 
 
 }
@@ -696,7 +734,6 @@ const myPersonality = {
 insertPersonality(myPersonality);
 
 // main.js
-
 
 
 
