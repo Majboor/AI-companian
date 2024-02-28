@@ -386,6 +386,30 @@ function showDeploymentStatus(message) {
     alertContainer.style.borderRadius = '5px';
     alertContainer.style.boxShadow = '0px 2px 5px rgba(0, 0, 0, 0.3)';
     alertContainer.style.zIndex = '9999';
+
+    // Create a cross button
+    const closeButton = document.createElement('button');
+    closeButton.textContent = '✖';
+    closeButton.style.backgroundColor = 'transparent';
+    closeButton.style.color = '#fff';
+    closeButton.style.border = 'none';
+    closeButton.style.cursor = 'pointer';
+    closeButton.style.float = 'right';
+    closeButton.style.fontSize = '20px';
+    closeButton.style.marginLeft = '5px';
+    closeButton.onclick = function(event) {
+        event.stopPropagation(); // Prevents the click event from reaching the alert container
+        alertContainer.remove();
+    };
+
+    // Append the close button to the alert container
+    alertContainer.appendChild(closeButton);
+
+    // Add click event listener to the alert container to close it
+    alertContainer.onclick = function() {
+        alertContainer.remove();
+    };
+
     document.body.appendChild(alertContainer);
 
     // Remove the alert after 3 seconds
