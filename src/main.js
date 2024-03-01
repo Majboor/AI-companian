@@ -568,6 +568,13 @@ if (window.location.hash === '#writer' && personalityJSON.name === 'AI Writer') 
     showStylizedPopup();
 }
 
+// Mid journey
+if (window.location.hash === '#midjourney' && personalityJSON.name === `Mid Journey Prompt Creator`) {
+    // Call custom popup function
+    personalityCard.click();
+    showStylizedPopup();
+}
+
 
 
 }
