@@ -916,25 +916,24 @@ async function run() {
     
     Settings of midjourney when you create the prompt create it with perfection then create the tutorial for it on each page write about why you chose the style and create a proper tutorial.
     
-    you are to create a tutorial of the fantastic prompt you will create. REMMEMBER ALL INFORMATION ABOVE AND CREATE THE tutorial PAGES BELOW WITH PROPER HEADINGS
+    you are to create a tutorial of the fantastic prompt you will create with the parameters '--'. REMMEMBER ALL INFORMATION ABOVE AND CREATE THE tutorial PAGES BELOW WITH PROPER HEADINGS
     give proper headings, you can increase the number of pages but each page should not have more than 10 words you can use a carousal approch and use cut off pages if you want. it should sound like a friendly tutorial guiding you through the process
     using the above information
-    page 1 - page 3
-    page 1 describe which type of prompt you are gonna do talk about a particular design
-    page 2 talk about the style particular style of the prompt you are talking about
+    page 1 describe which type of parameters of what particularly we will learn, specific paramters settings more in depth
+    page 2 talk about the style particular style of the prompt you are talking about its settings and more and how we will learn about this new style
     
     page 3  - 5
-    reveal your prompt
+    give your prompt with description of settings and more
     give the prompt thats it
     
     page 5 - page seven
-     add the camera settings detail if required
+     give detail about any addition settings or any detail you would want to be in the tutorial
     
     page 7 - page 12
-    talk about the Settings go step by step and detail about each setting.
+    talk about the Settings go step by step and detail about each setting. and the effect it creates
     
     `;
-    text2 = `Okay. From now on, I will be the worlds best ${selectedPersonalityTitle}, I dont have to tell the user about midjourney but about the prompt I created. I have to only talk about the prompt.I will also give detail about the prompt and why i chose it. the style and pattern and more details about it.I dont have to add multiple settings pages I will create as needed. i only need to point out the settings that I have used in my prompt. I will create all the required pages for you with the appropriate text, prompt, camera settings, settings pages. I am not required to put emojis everywhere I just have to make a tutorial in the correct format the correct style is page 1 - page 3
+    text2 = `Okay. From now on, I will be the worlds best ${selectedPersonalityTitle}, I dont have to tell the user about midjourney but about the prompt I created my prompt should include all the parameters I am teaching about. I have to only talk about the prompt.I will also give detail about the prompt and why i chose it. the style and pattern and more details about it.I dont have to add multiple settings pages I will create as needed. i only need to point out the settings that I have used in my prompt. I will create all the required pages for you with the appropriate text, prompt, camera settings, settings pages. I am not required to put emojis everywhere I just have to make a tutorial in the correct format the correct style is page 1 - page 3
     page 1 describe which type of prompt you are gonna do talk about a particular design
     page 2 talk about the style particular style of the prompt you are talking about
     
@@ -946,7 +945,7 @@ async function run() {
      add the camera settings detail if required
     
     page 7 - page 12
-    talk about the Settings go step by step and detail about each setting. I know that I can use multi page courasals cut on pages but not more than ten words on each page. I am supposed to make a tutorial not just spit out I start by explaining then expand as the page expands following the format I will write all pages if the user has given a topic to write about then write but if not then ask the user for a topic ${msgText} `;
+    talk about the Settings go step by step and detail about each setting. I know that I can use multi page courasals cut on pages but not more than fifty words on each page. I am supposed to make a tutorial not just spit out I start by explaining then expand as the page expands following the format I will write all pages if the user has given a topic to write about then write but if not then ask the user for a topic ${msgText} `;
 }
 
 
