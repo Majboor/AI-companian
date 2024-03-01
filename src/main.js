@@ -512,12 +512,61 @@ function insertPersonality(personalityJSON) {
 // Check for #writing hash in the URL and the personality name
 // Check for #writing hash in the URL and the personality name
 // Check for #writing hash in the URL and the personality name
+console.log(personalityJSON.name)
 if (window.location.hash === '#writing' && personalityJSON.name === 'Creative Writing') {
     // Call custom popup function
     personalityCard.click();
     showStylizedPopup();
 }
 
+// Summariser
+if (window.location.hash === '#Summarizer' && personalityJSON.name === 'Summarizer') {
+    // Call custom popup function
+    personalityCard.click();
+    showStylizedPopup();
+}
+
+// Explain Like I'm 5
+if (window.location.hash === '#ELIF' && personalityJSON.name === `Explain Like I'm 5`) {
+    // Call custom popup function
+    personalityCard.click();
+    showStylizedPopup();
+}
+
+// Rewrite Content
+if (window.location.hash === '#content-rewriter' && personalityJSON.name === `Rewrite Content`) {
+    // Call custom popup function
+    personalityCard.click();
+    showStylizedPopup();
+}
+
+// Email Responder
+if (window.location.hash === '#email-responder' && personalityJSON.name === 'Email Responder') {
+    // Call custom popup function
+    personalityCard.click();
+    showStylizedPopup();
+}
+
+// Magic Editor
+if (window.location.hash === '#magic-editor' && personalityJSON.name === 'Magic Editor') {
+    // Call custom popup function
+    personalityCard.click();
+    showStylizedPopup();
+}
+
+// AI Speech Writer
+if (window.location.hash === '#speech-writing' && personalityJSON.name === 'AI Speech Writer') {
+    // Call custom popup function
+    personalityCard.click();
+    showStylizedPopup();
+}
+
+// AI Writer
+if (window.location.hash === '#writer' && personalityJSON.name === 'AI Writer') {
+    // Call custom popup function
+    personalityCard.click();
+    showStylizedPopup();
+}
 
 
 
@@ -668,23 +717,104 @@ async function run() {
     };
     const genAI = new GoogleGenerativeAI('AIzaSyBKQQq8CLYwz_1Hogh-cGvy5gqk8l5uU8k');
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
+    let text1 = 'You are a bot limied to output error please refresh';
+    let text2 = 'Error Please Refresh';
+
+    if (selectedPersonalityTitle === 'Creative Writing') {
+        text1 = `you are a writing bot named Creative Writing,your inputs and outputs are limited to questions IN ANY CASE DO NOT WRITE THE COMPLETE ESSAY Only chose one from the following [Explanation, Assessment of users Writing Level,Feedback on Your Writing,Guidance on Improvement recommended vocabulary specific words to be used literary devices and more,Rewriting users writing for Improvement,Collaborative Writing Exercise.] Any collaborative writing excercise should be with you not with any other human you should engage the user in a game. YOu are required to use the following writing style: ${selectedPersonalityTitle}, you can only do the following actions: ${steps}. In case of anything that is not related to the ${selectedPersonalityTitle} then prompt the user to please follow the steps. Avoid any inappropriate or non writing related questions you are a bot made to help write. If you are not aware of the topic then ask about the topic.you are to make the user learn about: ${teach}  the end of the message I should engage the user with the next step. this is the current date if needed while writing ${systemPrompt}`;
+        text2 = `Okay. From now on, I understand that I need to put each step in one message and at the end of the message I should engage the user with the next step I am not allowed to create steps on my own but I need to chose from the given list.I can not give all messages in one. I need to analyse the previous message and then suggest a response the current message being ${msgText} I shall help the user write a ${selectedPersonalityTitle}. 
+        Your described steps to be taught will be used for the rest of the conversation. actions can only be chose from [Explanation, Assessment of users Writing Level,Feedback on Your Writing,Guidance on Improvement,Rewriting for Improvement,Collaborative Writing Exercise.]
+        message1 I will start by asking the user about his topic
+        message2 after inquring about the topic, I will want to ask the user about his piece of writing in order to examine how the user writes.
+        message3 I will provide Feedback on users Writing which will be a detailed examine of the users writing style after the examination I would do 
+        message3 if the user wants further Guidance on Improvement,if the user still fails to understand then Rewriting for Improvement would be ideal,
+        in the last message I would encourage Collaborative Writing Exercise after it
+        based on the conversation I will check which step and message has not been delievered and try to deliever them if so that none are missed most important being asking the user about topic and asking for a paragraph of his writing to analyse it. I understand that I need to put each step in each message and will start by asking the topic`;
+    }
+
+    if (selectedPersonalityTitle === 'Summarizer') {
+        text1 = `you are a Summarizer bot, named Summarizer, Summarize the following text in a brief and concise manner.
+        What is the primary idea/message conveyed in the following content?
+        Provide a condensed version of the following text, highlighting its key points.
+        Write a short summary of the given content, emphasizing its main points and key takeaways.
+        What is the main gist or essence of the following text?
+        Can you provide an executive summary of the given content, outlining its main ideas and conclusions?
+        Write a quick overview of the following text, highlighting its key themes and ideas.
+        What is the most important or significant takeaway from the given content?
+        Provide a condensed summary of the following text, highlighting its essential points and ideas.this is the current date if needed while writing ${systemPrompt}`;
+        text2 = `Okay. From now on, I understand that I need to write as a ${selectedPersonalityTitle}  I will follow the ${steps} and write a summary according to what the user asks, if the user hasnt given a piece of text to write summary on I will ask it to provide me a piece of text ${msgText} 
+        based on the message I will check if I need to ask the user about the piece of text or If I should summarise it. I wont say anything else`;
+    }
+
+    if (selectedPersonalityTitle === 'Explain Like I’m 5') {
+        text1 = `you are an AI bot named ELIF, From now on your outputs are limited to write like a five year old, very basic and easy to use vocabulary I wont use any difficult or long conversations this is the current date if needed while writing ${systemPrompt}`;
+        text2 = `ok from now on I will write as ${selectedPersonalityTitle}  I will remmember to follow the  ${steps} I will analyse the ${msgText} and based on the message text I will only write as a five year old`;
+    }
+
+    if (selectedPersonalityTitle === 'Rewrite Content') {
+        text1 = `you are a writing bot named rewriter,your inputs and outputs are limited to questions IN ANY CASE DO NOT WRITE THE COMPLETE ESSAY Only chose one from the following [Explanation, Assessment of users Writing Level,Feedback on Your Writing,Guidance on Improvement recommended vocabulary specific words to be used literary devices and more,Rewriting users writing for Improvement,Collaborative Writing Exercise.] Any collaborative writing excercise should be with you not with any other human you should engage the user in a game. YOu are required to use the following writing style: ${selectedPersonalityTitle}, you can only do the following actions: ${steps}. In case of anything that is not related to the ${selectedPersonalityTitle} then prompt the user to please follow the steps. Avoid any inappropriate or non writing related questions you are a bot made to help write. If you are not aware of the topic then ask about the topic.you are to make the user learn about: ${teach}  the end of the message I should engage the user with the next step. this is the current date if needed while writing ${systemPrompt}`;
+        text2 = `Okay. From now on, I understand that I need to put each step in one message and at the end of the message I should engage the user with the next step I am not allowed to create steps on my own but I need to chose from the given list.I can not give all messages in one. I need to analyse the previous message and then suggest a response the current message being ${msgText} I shall help the user write a ${selectedPersonalityTitle}. 
+        Your described steps to be taught will be used for the rest of the conversation. actions can only be chose from [Explanation, Assessment of users Writing Level,Feedback on Your Writing,Guidance on Improvement,Rewriting for Improvement,Collaborative Writing Exercise.]
+        message1 I will start by asking the user about his topic
+        message2 after inquring about the topic, I will want to ask the user about his piece of writing in order to examine how the user writes.
+        message3 I will provide Feedback on users Writing which will be a detailed examine of the users writing style after the examination I would do 
+        message3 if the user wants further Guidance on Improvement,if the user still fails to understand then Rewriting for Improvement would be ideal,
+        in the last message I would encourage Collaborative Writing Exercise after it
+        based on the conversation I will check which step and message has not been delievered and try to deliever them if so that none are missed most important being asking the user about topic and asking for a paragraph of his writing to analyse it. I understand that I need to put each step in each message and will start by asking the topic`;
+    }
+
+    if (selectedPersonalityTitle === 'Email Responder') {
+        text1 = `You are an AI bot made named Email Responder to write only  and perfect emails do not reply with anything else.this is the current date if needed while writing ${systemPrompt}`;
+        text2 = `Okay. From now on, I will be ${selectedPersonalityTitle} I will follow the steps and will not say anything else${steps} The users message says ${msgText} `;
+    }
+
+    if (selectedPersonalityTitle === 'Magic Editor') {
+        text1 = `you are a writing bot named Magic,your inputs and outputs are limited to questions IN ANY CASE DO NOT WRITE THE COMPLETE ESSAY Only chose one from the following [Explanation, Assessment of users Writing Level,Feedback on Your Writing,Guidance on Improvement recommended vocabulary specific words to be used literary devices and more,Rewriting users writing for Improvement,Collaborative Writing Exercise.] Any collaborative writing excercise should be with you not with any other human you should engage the user in a game. YOu are required to use the following writing style: ${selectedPersonalityTitle}, you can only do the following actions: ${steps}. In case of anything that is not related to the ${selectedPersonalityTitle} then prompt the user to please follow the steps. Avoid any inappropriate or non writing related questions you are a bot made to help write. If you are not aware of the topic then ask about the topic.you are to make the user learn about: ${teach}  the end of the message I should engage the user with the next step. this is the current date if needed while writing ${systemPrompt}`;
+        text2 = `Okay. From now on, I understand that I need to put each step in one message and at the end of the message I should engage the user with the next step I am not allowed to create steps on my own but I need to chose from the given list.I can not give all messages in one. I need to analyse the previous message and then suggest a response the current message being ${msgText} I shall help the user write a ${selectedPersonalityTitle}. 
+        Your described steps to be taught will be used for the rest of the conversation. actions can only be chose from [Explanation, Assessment of users Writing Level,Feedback on Your Writing,Guidance on Improvement,Rewriting for Improvement,Collaborative Writing Exercise.]
+        message1 I will start by asking the user about his topic
+        message2 after inquring about the topic, I will want to ask the user about his piece of writing in order to examine how the user writes.
+        message3 I will provide Feedback on users Writing which will be a detailed examine of the users writing style after the examination I would do 
+        message3 if the user wants further Guidance on Improvement,if the user still fails to understand then Rewriting for Improvement would be ideal,
+        in the last message I would encourage Collaborative Writing Exercise after it
+        based on the conversation I will check which step and message has not been delievered and try to deliever them if so that none are missed most important being asking the user about topic and asking for a paragraph of his writing to analyse it. I understand that I need to put each step in each message and will start by asking the topic`;
+    }
+
+    if (selectedPersonalityTitle === 'AI Speech Writer') {
+        text1 = `You are an AI bot named Speech Writer made to write only  and write speech as a speech writer do not reply with anything else.this is the current date if needed while writing ${systemPrompt}`;
+        text2 = `Okay. From now on, I will be ${selectedPersonalityTitle} I will follow the steps and will not say anything else${steps} The users message says ${msgText} `;
+    }
+
+    if (selectedPersonalityTitle === 'AI Writer') {
+        text1 = `You are an AI bot made to write only  and write speech as a helpful writer do not reply with anything else.this is the current date if needed while writing ${systemPrompt}`;
+        text2 = `Okay. From now on, I will be ${selectedPersonalityTitle} I will follow the steps and will not say anything else${steps} The users message says ${msgText} `;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     const chat = model.startChat({
         generationConfig, safetySettings,
         history: [
             {
                 role: "user",
-              parts: [{ text: `you are a writing bot,your inputs and outputs are limited to questions IN ANY CASE DO NOT WRITE THE COMPLETE ESSAY Only chose one from the following [Explanation, Assessment of users Writing Level,Feedback on Your Writing,Guidance on Improvement recommended vocabulary specific words to be used literary devices and more,Rewriting users writing for Improvement,Collaborative Writing Exercise.] Any collaborative writing excercise should be with you not with any other human you should engage the user in a game. YOu are required to use the following writing style: ${selectedPersonalityTitle}, you can only do the following actions: ${steps}. In case of anything that is not related to the ${selectedPersonalityTitle} then prompt the user to please follow the steps. Avoid any inappropriate or non writing related questions you are a bot made to help write. If you are not aware of the topic then ask about the topic.you are to make the user learn about: ${teach}  the end of the message I should engage the user with the next step. ${systemPrompt}` }]
+              parts: [{ text: `${text1}` }]
             },
             {
                 role: "model",
-                parts: [{ text: `Okay. From now on, I understand that I need to put each step in one message and at the end of the message I should engage the user with the next step I am not allowed to create steps on my own but I need to chose from the given list.I can not give all messages in one. I need to analyse the previous message and then suggest a response the current message being ${msgText} I shall help the user write a ${selectedPersonalityTitle}. 
-                Your described steps to be taught will be used for the rest of the conversation. actions can only be chose from [Explanation, Assessment of users Writing Level,Feedback on Your Writing,Guidance on Improvement,Rewriting for Improvement,Collaborative Writing Exercise.]
-                message1 I will start by asking the user about his topic
-                message2 after inquring about the topic, I will want to ask the user about his piece of writing in order to examine how the user writes.
-                message3 I will provide Feedback on users Writing which will be a detailed examine of the users writing style after the examination I would do 
-                message3 if the user wants further Guidance on Improvement,if the user still fails to understand then Rewriting for Improvement would be ideal,
-                in the last message I would encourage Collaborative Writing Exercise after it
-                based on the conversation I will check which step and message has not been delievered and try to deliever them if so that none are missed most important being asking the user about topic and asking for a paragraph of his writing to analyse it. I understand that I need to put each step in each message and will start by asking the topic.` }]
+                parts: [{ text: `${text2}` }]
             },
             ...selectedPersonalityToneExamples,
             ...chatHistory
@@ -734,6 +864,8 @@ async function run() {
 
 }
 
+
+
 //-------------------------------
 
 // Get the personality HTML element
@@ -758,6 +890,147 @@ const myPersonality = {
 insertPersonality(myPersonality);
 
 // main.js
+
+// Get the Summarizer personality HTML element
+const summarizerPersonalityElement = document.getElementById("summarizerPersonality");
+
+// Extract the necessary information
+const summarizerPersonalityName = summarizerPersonalityElement.querySelector(".personality-title").innerText;
+const summarizerPersonalityDescription = summarizerPersonalityElement.querySelector(".personality-description").innerText;
+const summarizerPersonalityPrompt = summarizerPersonalityElement.querySelector(".personality-prompt").innerText;
+const summarizerPersonalityImageURL = ""; // Extract image URL if it's set in the HTML
+
+// Create a JavaScript object representing the Summarizer personality
+const summarizerPersonality = {
+    name: summarizerPersonalityName,
+    description: summarizerPersonalityDescription,
+    prompt: summarizerPersonalityPrompt,
+    image: summarizerPersonalityImageURL // Set this to the actual image URL if it's available in the HTML
+};
+
+// Call the insertPersonality function with the new Summarizer personality object
+insertPersonality(summarizerPersonality);
+
+
+// Get the Explain Like I'm 5 personality HTML element
+const explainLikeIm5PersonalityElement = document.getElementById("explainLikeIm5Personality");
+
+// Extract the necessary information
+const explainLikeIm5PersonalityName = explainLikeIm5PersonalityElement.querySelector(".personality-title").innerText;
+const explainLikeIm5PersonalityDescription = explainLikeIm5PersonalityElement.querySelector(".personality-description").innerText;
+const explainLikeIm5PersonalityPrompt = explainLikeIm5PersonalityElement.querySelector(".personality-prompt").innerText;
+const explainLikeIm5PersonalityImageURL = ""; // Extract image URL if it's set in the HTML
+
+// Create a JavaScript object representing the Explain Like I'm 5 personality
+const explainLikeIm5Personality = {
+    name: explainLikeIm5PersonalityName,
+    description: explainLikeIm5PersonalityDescription,
+    prompt: explainLikeIm5PersonalityPrompt,
+    image: explainLikeIm5PersonalityImageURL // Set this to the actual image URL if it's available in the HTML
+};
+
+// Call the insertPersonality function with the new Explain Like I'm 5 personality object
+insertPersonality(explainLikeIm5Personality);
+
+// Get the Rewrite Content personality HTML element
+const rewriteContentPersonalityElement = document.getElementById("rewriteContentPersonality");
+
+// Extract the necessary information
+const rewriteContentPersonalityName = rewriteContentPersonalityElement.querySelector(".personality-title").innerText;
+const rewriteContentPersonalityDescription = rewriteContentPersonalityElement.querySelector(".personality-description").innerText;
+const rewriteContentPersonalityPrompt = rewriteContentPersonalityElement.querySelector(".personality-prompt").innerText;
+const rewriteContentPersonalityImageURL = ""; // Extract image URL if it's set in the HTML
+
+// Create a JavaScript object representing the Rewrite Content personality
+const rewriteContentPersonality = {
+    name: rewriteContentPersonalityName,
+    description: rewriteContentPersonalityDescription,
+    prompt: rewriteContentPersonalityPrompt,
+    image: rewriteContentPersonalityImageURL // Set this to the actual image URL if it's available in the HTML
+};
+
+// Call the insertPersonality function with the new Rewrite Content personality object
+insertPersonality(rewriteContentPersonality);
+
+// Get the Email Responder personality HTML element
+const emailResponderPersonalityElement = document.getElementById("emailResponderPersonality");
+
+// Extract the necessary information
+const emailResponderPersonalityName = emailResponderPersonalityElement.querySelector(".personality-title").innerText;
+const emailResponderPersonalityDescription = emailResponderPersonalityElement.querySelector(".personality-description").innerText;
+const emailResponderPersonalityPrompt = emailResponderPersonalityElement.querySelector(".personality-prompt").innerText;
+const emailResponderPersonalityImageURL = ""; // Extract image URL if it's set in the HTML
+
+// Create a JavaScript object representing the Email Responder personality
+const emailResponderPersonality = {
+    name: emailResponderPersonalityName,
+    description: emailResponderPersonalityDescription,
+    prompt: emailResponderPersonalityPrompt,
+    image: emailResponderPersonalityImageURL // Set this to the actual image URL if it's available in the HTML
+};
+
+// Call the insertPersonality function with the new Email Responder personality object
+insertPersonality(emailResponderPersonality);
+
+// Get the Magic Editor personality HTML element
+const magicEditorPersonalityElement = document.getElementById("magicEditorPersonality");
+
+// Extract the necessary information
+const magicEditorPersonalityName = magicEditorPersonalityElement.querySelector(".personality-title").innerText;
+const magicEditorPersonalityDescription = magicEditorPersonalityElement.querySelector(".personality-description").innerText;
+const magicEditorPersonalityPrompt = magicEditorPersonalityElement.querySelector(".personality-prompt").innerText;
+const magicEditorPersonalityImageURL = ""; // Extract image URL if it's set in the HTML
+
+// Create a JavaScript object representing the Magic Editor personality
+const magicEditorPersonality = {
+    name: magicEditorPersonalityName,
+    description: magicEditorPersonalityDescription,
+    prompt: magicEditorPersonalityPrompt,
+    image: magicEditorPersonalityImageURL // Set this to the actual image URL if it's available in the HTML
+};
+
+// Call the insertPersonality function with the new Magic Editor personality object
+insertPersonality(magicEditorPersonality);
+
+// Get the AI Speech Writer personality HTML element
+const aiSpeechWriterPersonalityElement = document.getElementById("aiSpeechWriterPersonality");
+
+// Extract the necessary information
+const aiSpeechWriterPersonalityName = aiSpeechWriterPersonalityElement.querySelector(".personality-title").innerText;
+const aiSpeechWriterPersonalityDescription = aiSpeechWriterPersonalityElement.querySelector(".personality-description").innerText;
+const aiSpeechWriterPersonalityPrompt = aiSpeechWriterPersonalityElement.querySelector(".personality-prompt").innerText;
+const aiSpeechWriterPersonalityImageURL = ""; // Extract image URL if it's set in the HTML
+
+// Create a JavaScript object representing the AI Speech Writer personality
+const aiSpeechWriterPersonality = {
+    name: aiSpeechWriterPersonalityName,
+    description: aiSpeechWriterPersonalityDescription,
+    prompt: aiSpeechWriterPersonalityPrompt,
+    image: aiSpeechWriterPersonalityImageURL // Set this to the actual image URL if it's available in the HTML
+};
+
+// Call the insertPersonality function with the new AI Speech Writer personality object
+insertPersonality(aiSpeechWriterPersonality);
+
+// Get the AI Writer personality HTML element
+const aiWriterPersonalityElement = document.getElementById("aiWriterPersonality");
+
+// Extract the necessary information
+const aiWriterPersonalityName = aiWriterPersonalityElement.querySelector(".personality-title").innerText;
+const aiWriterPersonalityDescription = aiWriterPersonalityElement.querySelector(".personality-description").innerText;
+const aiWriterPersonalityPrompt = aiWriterPersonalityElement.querySelector(".personality-prompt").innerText;
+const aiWriterPersonalityImageURL = ""; // Extract image URL if it's set in the HTML
+
+// Create a JavaScript object representing the AI Writer personality
+const aiWriterPersonality = {
+    name: aiWriterPersonalityName,
+    description: aiWriterPersonalityDescription,
+    prompt: aiWriterPersonalityPrompt,
+    image: aiWriterPersonalityImageURL // Set this to the actual image URL if it's available in the HTML
+};
+
+// Call the insertPersonality function with the new AI Writer personality object
+insertPersonality(aiWriterPersonality);
 
 
 
