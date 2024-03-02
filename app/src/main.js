@@ -996,6 +996,39 @@ if (selectedPersonalityTitle === `Essay Outline Generator`) {
     text2 = `Okay. From now on, I will be ${selectedPersonalityTitle} I will follow the steps and will not say anything else${steps} The users message says ${msgText} `;
 }
 
+if (selectedPersonalityTitle === `Shopify SEO`) {
+    console.log("hello")   
+    function addNewMessage(messageText) {
+        const newReplyElement = document.createElement("div");
+        newReplyElement.classList.add("message");
+        newReplyElement.classList.add("message-model");
+        newReplyElement.innerHTML = `
+            <h3 class="message-role">${selectedPersonalityTitle}:</h3>
+            <div class="message-role-api" style="display: none;">model</div>
+            <p class="message-text">${messageText}</p>`;
+    
+        // Get the p element inside the message div
+        const replyTextElement = newReplyElement.querySelector(".message-text");
+    
+        messageContainer.insertBefore(newReplyElement, messageContainer.firstChild);
+        // loadingSpinner.style.display = "none";
+    
+        // let rawTextContent = "what is your shopify admin key?"; // Set your hardcoded message here
+        // replyTextElement.innerHTML = DOMPurify.sanitize(marked.parse(rawTextContent));
+        void replyTextElement.offsetHeight; // Force reflow
+        hljs.highlightAll();
+    }
+    
+    // Call the function with your desired message text
+    addNewMessage("what is your shopify admin key?");
+        
+    
+// console.log(key)
+
+    text1 = `You are an AI bot, named Essay Outline Generator made to write only  and write speech as a helpful essay outline generator do not reply with anything else.this is the current date if needed while writing ${systemPrompt}`;
+    text2 = `Okay. From now on, I will be ${selectedPersonalityTitle} I will follow the steps and will not say anything else${steps} The users message says ${msgText} `;
+}
+
 
 
 
@@ -1285,3 +1318,23 @@ const essayOutlineGeneratorPersonality = {
 
 // Call the insertPersonality function with the new Essay Outline Generator personality object
 insertPersonality(essayOutlineGeneratorPersonality);
+
+// Get the Shopify SEO personality HTML element
+const shopifySEOPersonalityElement = document.getElementById("shopifySEOPersonality");
+
+// Extract the necessary information
+const shopifySEOPersonalityName = shopifySEOPersonalityElement.querySelector(".personality-title").innerText;
+const shopifySEOPersonalityDescription = shopifySEOPersonalityElement.querySelector(".personality-description").innerText;
+const shopifySEOPersonalityPrompt = shopifySEOPersonalityElement.querySelector(".personality-prompt").innerText;
+const shopifySEOPersonalityImageURL = ""; // Extract image URL if it's set in the HTML
+
+// Create a JavaScript object representing the Shopify SEO personality
+const shopifySEOPersonality = {
+    name: shopifySEOPersonalityName,
+    description: shopifySEOPersonalityDescription,
+    prompt: shopifySEOPersonalityPrompt,
+    image: shopifySEOPersonalityImageURL // Set this to the actual image URL if it's available in the HTML
+};
+
+// Call the insertPersonality function with the new Shopify SEO personality object
+insertPersonality(shopifySEOPersonality);
