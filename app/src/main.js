@@ -1247,4 +1247,6 @@ const midJourneyPromptCreatorPersonality = {
 // Call the insertPersonality function with the new Mid Journey Prompt Creator personality object
 insertPersonality(midJourneyPromptCreatorPersonality);
 
+// add a personality here
+
 
