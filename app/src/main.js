@@ -612,6 +612,12 @@ if (window.location.hash === '#midjourney' && personalityJSON.name === `Mid Jour
     showStylizedPopup();
 }
 
+// Mid journey
+if (window.location.hash === '#Essayoutline' && personalityJSON.name === `Essay Outline Generator`) {
+    // Call custom popup function
+    personalityCard.click();
+    showStylizedPopup();
+}
 
 
 }
@@ -985,6 +991,13 @@ async function run() {
     talk about the Settings go step by step and detail about each setting. I know that I can use multi page courasals cut on pages but not more than fifty words on each page. I am supposed to make a tutorial not just spit out I start by explaining then expand as the page expands following the format I will write all pages if the user has given a topic to write about then write but if not then ask the user for a topic ${msgText} `;
 }
 
+if (selectedPersonalityTitle === `Essay Outline Generator`) {
+    text1 = `You are an AI bot, named Essay Outline Generator made to write only  and write speech as a helpful essay outline generator do not reply with anything else.this is the current date if needed while writing ${systemPrompt}`;
+    text2 = `Okay. From now on, I will be ${selectedPersonalityTitle} I will follow the steps and will not say anything else${steps} The users message says ${msgText} `;
+}
+
+
+
 
 
 
@@ -1017,6 +1030,7 @@ async function run() {
 
     //create new message div for the user's message then append to message container's top
     const newMessage = document.createElement("div");
+    const loadingSpinner = document.querySelector("#loadingSpinner");
     console.log(`you are a writing bot made to write in the writing style: ${selectedPersonalityTitle}, you can only do the following actions: ${steps} you are to make the user learn about: ${teach}. ${systemPrompt}`);
     newMessage.classList.add("message");
     newMessage.innerHTML = `
@@ -1025,6 +1039,7 @@ async function run() {
             <p class="message-text">${msgText}</p>
             `;
     messageContainer.insertBefore(newMessage, messageContainer.firstChild);
+    loadingSpinner.style.display = "block";
 
     const result = await chat.sendMessageStream(msgText);
 
@@ -1042,6 +1057,7 @@ async function run() {
 
 
     messageContainer.insertBefore(newReply, messageContainer.firstChild);
+    loadingSpinner.style.display = "none";
 
     let rawText = "";
     for await (const chunk of result.stream) {
@@ -1250,3 +1266,22 @@ insertPersonality(midJourneyPromptCreatorPersonality);
 // add a personality here
 
 
+// Get the Essay Outline Generator personality HTML element
+const essayOutlineGeneratorPersonalityElement = document.getElementById("essayOutlineGeneratorPersonality");
+
+// Extract the necessary information
+const essayOutlineGeneratorPersonalityName = essayOutlineGeneratorPersonalityElement.querySelector(".personality-title").innerText;
+const essayOutlineGeneratorPersonalityDescription = essayOutlineGeneratorPersonalityElement.querySelector(".personality-description").innerText;
+const essayOutlineGeneratorPersonalityPrompt = essayOutlineGeneratorPersonalityElement.querySelector(".personality-prompt").innerText;
+const essayOutlineGeneratorPersonalityImageURL = ""; // Extract image URL if it's set in the HTML
+
+// Create a JavaScript object representing the Essay Outline Generator personality
+const essayOutlineGeneratorPersonality = {
+    name: essayOutlineGeneratorPersonalityName,
+    description: essayOutlineGeneratorPersonalityDescription,
+    prompt: essayOutlineGeneratorPersonalityPrompt,
+    image: essayOutlineGeneratorPersonalityImageURL // Set this to the actual image URL if it's available in the HTML
+};
+
+// Call the insertPersonality function with the new Essay Outline Generator personality object
+insertPersonality(essayOutlineGeneratorPersonality);

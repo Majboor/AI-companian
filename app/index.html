@@ -217,7 +217,24 @@
     </label>
 </div>
 
+<!-- Essay Outline Generator personality card -->
+<div id="essayOutlineGeneratorPersonality" style="display: none;">
+    <label class="card-personality">
+        <input type="radio" name="personality" value="Essay Outline Generator">
+        <div>
+            <h3 class="personality-title">Essay Outline Generator</h3>
+            <p class="personality-description">Create an outline with a clear structure for your essay.</p>
+            <p class="personality-prompt">Think about this prompt.</p>
+        </div>
+        <button class="btn-textual btn-edit-card material-symbols-outlined" id="btn-edit-personality-Essay Outline Generator">edit</button>
+        <button class="btn-textual btn-share-card material-symbols-outlined" id="btn-share-personality-Essay Outline Generator">share</button>
+        <button class="btn-textual btn-delete-card material-symbols-outlined" id="btn-delete-personality-Essay Outline Generator">delete</button>
+    </label>
+</div>
+
+
 <!-- add a personality here -->
+
 
 
 
@@ -270,6 +287,10 @@
                 <textarea type="text" placeholder="Type your message here" id="messageInput"
                     class="input-field"></textarea>
                 <button type="submit" class="btn-textual material-symbols-outlined" id="btn-send">send</button>
+                <!-- <div id="loadingSpinner" style="display: none;">Loading...</div> -->
+                <div class="loader" id="loadingSpinner" style="display: none;"></div>
+
+
             </div>
         </div>
     </div>
