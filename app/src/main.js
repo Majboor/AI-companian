@@ -350,6 +350,106 @@ function showStylizedPopup() {
     }
 }
 
+// Declare a global variable to store the input value
+let variable1;
+let variable2;
+async function config_shopify() {
+    return new Promise((resolve, reject) => {
+        // Create popupContainer dynamically
+        const popupContainer = document.createElement('div');
+        popupContainer.id = 'popupContainer';
+        popupContainer.className = 'popup-container';
+        
+        // Create popupContent dynamically
+        const popupContent = document.createElement('div');
+        popupContent.id = 'popupContent';
+        popupContent.className = 'popup-content';
+
+        // Add popupContent to popupContainer
+        popupContainer.appendChild(popupContent);
+
+        // Show the popup
+        popupContainer.style.display = 'flex';
+
+        // Add popupContainer to the body
+        document.body.appendChild(popupContainer);
+
+        // Function to close popup
+        function closePopup() {
+            popupContainer.style.display = 'none';
+            resolve(); // Resolve the promise when the popup is closed
+        }
+
+        // Function to show Step 1 content
+        function showStep1() {
+            popupContent.innerHTML = `
+                <h2>Configure Your shopify ADMIN API</h2>
+                <p>You can find the api in your shopify settings tab</p>
+                <input type="text" id="textInput">
+                <button id="btnNext" class="btn-next">Next</button>                
+            `;
+            document.getElementById('btnNext').addEventListener('click', function() {
+                // Get the value from the input field and store it in variable1
+                variable1 = document.getElementById('textInput').value;
+                showStep2();
+            });     
+        }
+
+        // Function to show Step 2 content
+        function showStep2() {
+            popupContent.innerHTML = `
+                <h2>what is your shopify url</h2>
+                <p>you can find the url at</p>
+                <input type="text" id="textinput">
+                <button id="btnNext" class="btn-next">Next</button>                
+            `;
+            document.getElementById('btnNext').addEventListener('click', function() {
+                // Get the value from the input field and store it in variable1
+                variable2 = document.getElementById('textinput').value;
+                showStep3();
+            });         
+        }
+
+        // Function to show Step 3 content
+        function showStep3() {
+            popupContent.innerHTML = `
+                <h2>Configured properly</h2>
+                <p>I can do</p>
+                <button id="btnClose" class="btn-close">Close</button>
+            `;
+            document.getElementById('btnClose').addEventListener('click', closePopup);
+            // You can use variable1 here
+            console.log("Variable 1:", variable1);
+            console.log("Variable 2:", variable2);
+        }
+
+        // Initially show Step 1 content
+        showStep1();
+    });
+}
+
+// Usage
+
+
+
+
+
+// Call the main function
+// main();
+
+
+// Usage
+
+
+
+// Usage
+
+
+
+// Call the function to show the popup
+
+
+
 function navigateTo(tab) {
     if (tab == tabs[currentTab]) {
         return;
@@ -1020,7 +1120,11 @@ if (selectedPersonalityTitle === `Shopify SEO`) {
     }
     
     // Call the function with your desired message text
-    addNewMessage("what is your shopify admin key?");
+    addNewMessage("Please Configure your settings");
+    await config_shopify().then(() => {
+        console.log("config_shopify function executed successfully.");
+        // Proceed with further code execution
+    });
         
     
 // console.log(key)
