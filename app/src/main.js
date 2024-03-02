@@ -40,6 +40,43 @@ const tabHighlight = document.querySelector(".navbar-tab-highlight");
 //misc
 const badge = document.querySelector("#btn-whatsnew");
 
+
+$(document).ready(function() {
+    $("#btn-accept-tutorial").click(function() {
+      $(".notification-bar").fadeOut();
+      // Start Intro.js tour
+      startIntroJs();
+    });
+
+    $("#btn-decline-tutorial").click(function() {
+      $(".notification-bar").fadeOut();
+    });
+
+    // Function to start Intro.js tour
+    function startIntroJs() {
+        introJs('.container').setOptions({
+            steps: [{
+              intro: "Step 1 of the tour."
+            }, {
+              element: document.querySelector("#btn-submit-personality"), // Targeting the sidebar section
+              intro: "Step 2: This is the sidebar section.",
+              position: 'right' // Position the tooltip to the right of the element
+            }, {
+              element: document.querySelector('#btn-add-personality'), // Targeting the "Create Your Own Style" button
+              intro: "Step 3: This is the 'Create Your Own Style' button.",
+              position: 'bottom' // Position the tooltip below the element
+            },
+            {
+              element: document.querySelector("#btn-import-personality"), // Targeting the "Create Your Own Style" button
+              intro: "Step 3: This is the 'Create Your Own Style' button.",
+              position: 'bottom' // Position the tooltip below the element
+            }
+          
+          ]
+          }).start();
+    }
+  });
+
 //-------------------------------
 
 //load api key from local storage into input field

@@ -711,6 +711,31 @@
     .btn-close {
         background-color: #dc3545; /* Red button */
     }
+
+    .notification-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 10px; /* Adjust the height as needed */
+        background-color: #22486b; /* Change the background color to red */
+        padding: 10px;
+        box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .notification-bar .message {
+        flex-grow: 1;
+        margin-right: 10px;
+    }
+    
+    .notification-bar .actions button {
+        margin-left: 10px;
+    }
+    
     
     
 
