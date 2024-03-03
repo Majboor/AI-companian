@@ -805,6 +805,13 @@ if (window.location.hash === '#Essayoutline' && personalityJSON.name === `Essay 
     showStylizedPopup();
 }
 
+// SEO companian
+if (window.location.hash === '#seo' && personalityJSON.name === `Shopify SEO`) {
+    // Call custom popup function
+    personalityCard.click();
+    showStylizedPopup();
+}
+
 
 }
   
