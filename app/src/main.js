@@ -432,66 +432,68 @@ async function config_shopify() {
 
         // Function to show Step 3 content
         function showStep3() {
+            const api_url = 'https://penapi.techrealm.pk';
             popupContent.innerHTML = `
                 <h2>Configured properly</h2>
-                <p>By clicking on Fetcch Products you will allow us to fetch all products</p>
-                <button id="btnClose" style="display:Done; class="btn-close">Close</button>
-                <button id="Fetchprods" style="display:Done; class="fetch-products">Fetch Products</button>
-                <div class="loaderFetch" style="display:none;></div>
+                <p>By clicking on Fetch Products you will allow us to fetch all products</p>
+                <button id="btnClose" style="display:none;" class="btn-close">Close</button>
+                <button id="Fetchprods" style="display:block;" class="fetch-products">Fetch Products</button>
+                <div class="loaderFetch" style="display:none;"></div>
             `;
-            const api_url = 'http://10.10.12.152:5005';
-
-
-document.getElementById('Fetchprods').addEventListener('click', function() {
-    document.getElementById('Fetchprods').style.display = 'none';
-    document.getElementById('Fetchprods').style.display = 'Done';
-    fetch(`${api_url}/generate_id`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: new URLSearchParams({
-            SHOP_URL: shopify_admin_url,
-            API_KEY: api_key_shopify
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        const requestId = data.request_id;
-        const url = data.url;
-        console.log(url); // Display URL in the console
-        checkStatus(requestId, url);
-    })
-    .catch(error => console.error('Error:', error));
-});
-
-function checkStatus(requestId, url) {
-    fetch(`${api_url}/check_status`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: new URLSearchParams({
-            request_id: requestId
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Check if request is completed
-        if (data.status === '200') {
-            document.getElementById('btnClose').style.display = 'Done';
-            console.log(url)
-            addNewMessage(url,'seo')
-        //     document.getElementById('btnClose').innerHTML = `Done. <a href="${url}" target="_blank">View Generated HTML</a>`;
-        // } else {
-            console.log("else executed")
-
-        }
-    })
-    .catch(error => console.error('Error:', error));
-}
-// document.getElementById('btnClose').style.display = 'Done';
-document.getElementById('btnClose').addEventListener('click', closePopup);
+        
+            document.getElementById('Fetchprods').addEventListener('click', function() {
+                // Hide the Fetch Products button and show the loading spinner                
+                document.getElementById('Fetchprods').style.display = 'none';
+                document.querySelector('.loaderFetch').style.display = 'block';
+        
+                fetch(`${api_url}/generate_id`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        SHOP_URL: shopify_admin_url,
+                        API_KEY: api_key_shopify
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const requestId = data.request_id;
+                    const url = data.url;
+                    console.log(url); // Display URL in the console
+                    checkStatus(requestId, url);
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        
+            function checkStatus(requestId, url) {
+                fetch(`${api_url}/check_status`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        request_id: requestId
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Check if request is completed
+                    if (data.status === '200') {
+                        // Show the Close button
+                        document.getElementById('btnClose').style.display = 'block';
+                        console.log(url);
+                        addNewMessage(url,'seo');
+                    } else {
+                        console.log("else executed");
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        
+            document.getElementById('btnClose').addEventListener('click', closePopup);
+        
+        
             
             // You can use variable1 here
             console.log("Variable 1:", api_key_shopify);
