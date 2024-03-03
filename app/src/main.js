@@ -350,9 +350,29 @@ function showStylizedPopup() {
     }
 }
 
+function addNewMessage(messageText,title) {
+    const newReplyElement = document.createElement("div");
+    newReplyElement.classList.add("message");
+    newReplyElement.classList.add("message-model");
+    newReplyElement.innerHTML = `
+        <h3 class="message-role">${title}:</h3>
+        <div class="message-role-api" style="display: none;">model</div>
+        <p class="message-text">${messageText}</p>`;
+
+    // Get the p element inside the message div
+    const replyTextElement = newReplyElement.querySelector(".message-text");
+
+    messageContainer.insertBefore(newReplyElement, messageContainer.firstChild);
+    // loadingSpinner.style.display = "none";
+
+    // let rawTextContent = "what is your shopify admin key?"; // Set your hardcoded message here
+    // replyTextElement.innerHTML = DOMPurify.sanitize(marked.parse(rawTextContent));
+    void replyTextElement.offsetHeight; // Force reflow
+    hljs.highlightAll();
+}
 // Declare a global variable to store the input value
-let variable1;
-let variable2;
+let api_key_shopify;
+let shopify_admin_url;
 async function config_shopify() {
     return new Promise((resolve, reject) => {
         // Create popupContainer dynamically
@@ -390,7 +410,7 @@ async function config_shopify() {
             `;
             document.getElementById('btnNext').addEventListener('click', function() {
                 // Get the value from the input field and store it in variable1
-                variable1 = document.getElementById('textInput').value;
+                api_key_shopify = document.getElementById('textInput').value;
                 showStep2();
             });     
         }
@@ -405,7 +425,7 @@ async function config_shopify() {
             `;
             document.getElementById('btnNext').addEventListener('click', function() {
                 // Get the value from the input field and store it in variable1
-                variable2 = document.getElementById('textinput').value;
+                shopify_admin_url = document.getElementById('textinput').value;
                 showStep3();
             });         
         }
@@ -414,13 +434,77 @@ async function config_shopify() {
         function showStep3() {
             popupContent.innerHTML = `
                 <h2>Configured properly</h2>
-                <p>I can do</p>
-                <button id="btnClose" class="btn-close">Close</button>
+                <p>By clicking on Fetcch Products you will allow us to fetch all products</p>
+                <button id="btnClose" style="display:Done; class="btn-close">Close</button>
+                <button id="Fetchprods" style="display:Done; class="fetch-products">Fetch Products</button>
+                <div class="loaderFetch" style="display:none;></div>
             `;
-            document.getElementById('btnClose').addEventListener('click', closePopup);
+            const api_url = 'http://10.10.12.152:5005';
+
+
+document.getElementById('Fetchprods').addEventListener('click', function() {
+    document.getElementById('Fetchprods').style.display = 'none';
+    document.getElementById('Fetchprods').style.display = 'Done';
+    fetch(`${api_url}/generate_id`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            SHOP_URL: shopify_admin_url,
+            API_KEY: api_key_shopify
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        const requestId = data.request_id;
+        const url = data.url;
+        console.log(url); // Display URL in the console
+        checkStatus(requestId, url);
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+function checkStatus(requestId, url) {
+    fetch(`${api_url}/check_status`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            request_id: requestId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Check if request is completed
+        if (data.status === '200') {
+            document.getElementById('btnClose').style.display = 'Done';
+            console.log(url)
+            addNewMessage(url,'seo')
+        //     document.getElementById('btnClose').innerHTML = `Done. <a href="${url}" target="_blank">View Generated HTML</a>`;
+        // } else {
+            console.log("else executed")
+
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+// document.getElementById('btnClose').style.display = 'Done';
+document.getElementById('btnClose').addEventListener('click', closePopup);
+            
             // You can use variable1 here
-            console.log("Variable 1:", variable1);
-            console.log("Variable 2:", variable2);
+            console.log("Variable 1:", api_key_shopify);
+            console.log("Variable 2:", shopify_admin_url);
+
+
+
+
+
+
+
+
+
         }
 
         // Initially show Step 1 content
@@ -1098,29 +1182,10 @@ if (selectedPersonalityTitle === `Essay Outline Generator`) {
 
 if (selectedPersonalityTitle === `Shopify SEO`) {
     console.log("hello")   
-    function addNewMessage(messageText) {
-        const newReplyElement = document.createElement("div");
-        newReplyElement.classList.add("message");
-        newReplyElement.classList.add("message-model");
-        newReplyElement.innerHTML = `
-            <h3 class="message-role">${selectedPersonalityTitle}:</h3>
-            <div class="message-role-api" style="display: none;">model</div>
-            <p class="message-text">${messageText}</p>`;
-    
-        // Get the p element inside the message div
-        const replyTextElement = newReplyElement.querySelector(".message-text");
-    
-        messageContainer.insertBefore(newReplyElement, messageContainer.firstChild);
-        // loadingSpinner.style.display = "none";
-    
-        // let rawTextContent = "what is your shopify admin key?"; // Set your hardcoded message here
-        // replyTextElement.innerHTML = DOMPurify.sanitize(marked.parse(rawTextContent));
-        void replyTextElement.offsetHeight; // Force reflow
-        hljs.highlightAll();
-    }
+
     
     // Call the function with your desired message text
-    addNewMessage("Please Configure your settings");
+    addNewMessage("Please Configure your settings",selectedPersonalityTitle);
     await config_shopify().then(() => {
         console.log("config_shopify function executed successfully.");
         // Proceed with further code execution

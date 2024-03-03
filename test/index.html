@@ -1,28 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Intro.js Example</title>
-  <!-- Include Intro.js CSS -->
-  <link href="https://unpkg.com/intro.js/introjs.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Demo</title>
 </head>
 <body>
-  <h1>Welcome to My Website</h1>
-  <button id="login">Login</button>
-  
-  <!-- Include Intro.js JavaScript -->
-  <script src="https://unpkg.com/intro.js/intro.js"></script>
-  <script>
-    // Initiate the tour
-    introJs().setOptions({
-      steps: [{
-        intro: "Hello world!"
-      }, {
-        element: document.querySelector('#login'),
-        intro: "Click here to login!"
-      }]
-    }).start();
-  </script>
+<button id="requestButton">Send Request</button>
+<div id="loading" style="display:none;">Loading...</div>
+<div id="status"></div>
+<div id="fetchAgainPrompt" style="display:none;">
+    Data for this URL has already been fetched. Do you want to fetch again?
+    <button id="fetchAgainYes">Yes</button>
+    <button id="fetchAgainNo">No</button>
+</div>
+
+<script>
+const api_url = 'http://10.10.12.152:5005'
+document.getElementById('requestButton').addEventListener('click', function() {
+    document.getElementById('loading').style.display = 'block';
+    fetch(`${api_url}/generate_id`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            SHOP_URL: 'https://6708ac-3.myshopify.com',
+            API_KEY: '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'
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Request ID received, now check status periodically
+        const requestId = data.request_id;
+        const url = data.url;
+        checkStatus(requestId, url);
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+function checkStatus(requestId, url) {
+    fetch(`${api_url}/check_status`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            request_id: requestId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Check if request is completed
+        if (data.status === '200') {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('status').innerHTML = `Done. <a href="${url}" target="_blank">View Generated HTML</a>`;
+        } else {
+            // Show fetch again prompt
+            document.getElementById('fetchAgainPrompt').style.display = 'block';
+            document.getElementById('fetchAgainYes').addEventListener('click', function() {
+                // Hide fetch again prompt
+                document.getElementById('fetchAgainPrompt').style.display = 'none';
+                // Proceed with fetching again
+                document.getElementById('loading').style.display = 'block';
+                fetchAgain();
+            });
+
+            document.getElementById('fetchAgainNo').addEventListener('click', function() {
+                // Hide fetch again prompt
+                document.getElementById('fetchAgainPrompt').style.display = 'none';
+                // Inform the user
+                document.getElementById('status').innerText = 'Data already fetched.';
+            });
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function fetchAgain() {
+    fetch(`${api_url}/generate_id`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            SHOP_URL: 'https://6708ac-3.myshopify.com',
+            API_KEY: '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'
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Request ID received, now check status periodically
+        const requestId = data.request_id;
+        const url = data.url;
+        checkStatus(requestId, url);
+    })
+    .catch(error => console.error('Error:', error));
+}
+</script>
 </body>
 </html>
