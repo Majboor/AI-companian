@@ -41,6 +41,13 @@ const tabHighlight = document.querySelector(".navbar-tab-highlight");
 const badge = document.querySelector("#btn-whatsnew");
 
 
+
+
+
+
+
+
+
 $(document).ready(function() {
     $("#btn-accept-tutorial").click(function() {
       $(".notification-bar").fadeOut();
@@ -917,7 +924,7 @@ function showWhatsNew() {
     showElement(whatsNewDiv);
 }
 
-async function run() {
+async function run() {   
     const msg = document.querySelector("#messageInput");
     let msgText = getSanitized(msg.value);
     console.log(msgText)
@@ -951,6 +958,36 @@ async function run() {
     })
     //reverse order of chat history
     chatHistory.reverse();
+    console.log(chatHistory)
+
+    let userPrompts = [];
+    function addValueAndLog(newValue) {
+        const previousLength = userPrompts.length; // Get the previous length of the array
+        userPrompts.push(newValue); // Add the new value to the array
+        const newLength = userPrompts.length; // Get the new length of the array
+    
+        // Check if the length has increased
+        if (newLength > previousLength) {
+            console.log("New value added:", newValue); // Log the new value
+        }
+    }
+    
+
+
+
+chatHistory.forEach((message, index) => {
+    if (message.role === 'user') {
+        console.log('recieved and logging')
+        const promptNumber = Math.floor(index / 2) + 1;
+        const promptText = `prompt ${promptNumber}`;
+        addValueAndLog({ [promptText]: message.parts[0].text });
+    }
+});
+
+console.log(userPrompts);
+
+
+
 
 
 
@@ -1221,7 +1258,7 @@ if (selectedPersonalityTitle === `Shopify SEO`) {
 
 
 
-
+//-------------------------------
 
     const chat = model.startChat({
         generationConfig, safetySettings,
@@ -1240,6 +1277,7 @@ if (selectedPersonalityTitle === `Shopify SEO`) {
     })
 
     //create new message div for the user's message then append to message container's top
+    
     const newMessage = document.createElement("div");
     const loadingSpinner = document.querySelector("#loadingSpinner");
     console.log(`you are a writing bot made to write in the writing style: ${selectedPersonalityTitle}, you can only do the following actions: ${steps} you are to make the user learn about: ${teach}. ${systemPrompt}`);
@@ -1250,6 +1288,18 @@ if (selectedPersonalityTitle === `Shopify SEO`) {
             <p class="message-text">${msgText}</p>
             `;
     messageContainer.insertBefore(newMessage, messageContainer.firstChild);
+    function handleEnterKeyPress(event) {
+        // Check if Enter key is pressed and loading spinner is visible
+        if (event.key === 'Enter' && loadingSpinner.style.display === "block") {
+            console.log("Enter is blocked because loading spinner is visible");
+            // Prevent default behavior of Enter key press
+            event.preventDefault();
+        }
+    }
+    
+    // Add event listener for Enter key press
+    document.addEventListener('keydown', handleEnterKeyPress);
+    sendMessageButton.style.display = "none";
     loadingSpinner.style.display = "block";
 
     const result = await chat.sendMessageStream(msgText);
@@ -1268,6 +1318,7 @@ if (selectedPersonalityTitle === `Shopify SEO`) {
 
 
     messageContainer.insertBefore(newReply, messageContainer.firstChild);
+    sendMessageButton.style.display = "block";
     loadingSpinner.style.display = "none";
 
     let rawText = "";
@@ -1283,6 +1334,8 @@ if (selectedPersonalityTitle === `Shopify SEO`) {
     localStorage.setItem("API_KEY", API_KEY.value);
     localStorage.setItem("maxTokens", maxTokens.value);
 
+
+   
 }
 
 
