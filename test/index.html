@@ -1,102 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>API Demo</title>
+    <title>Vibration Example</title>
 </head>
 <body>
-<button id="requestButton">Send Request</button>
-<div id="loading" style="display:none;">Loading...</div>
-<div id="status"></div>
-<div id="fetchAgainPrompt" style="display:none;">
-    Data for this URL has already been fetched. Do you want to fetch again?
-    <button id="fetchAgainYes">Yes</button>
-    <button id="fetchAgainNo">No</button>
-</div>
+    <button onclick="vibrate()">Vibrate</button>
 
-<script>
-const api_url = 'http://10.10.12.152:5005'
-document.getElementById('requestButton').addEventListener('click', function() {
-    document.getElementById('loading').style.display = 'block';
-    fetch(`${api_url}/generate_id`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: new URLSearchParams({
-            SHOP_URL: '',
-            API_KEY: ''
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Request ID received, now check status periodically
-        const requestId = data.request_id;
-        const url = data.url;
-        checkStatus(requestId, url);
-    })
-    .catch(error => console.error('Error:', error));
-});
-
-function checkStatus(requestId, url) {
-    fetch(`${api_url}/check_status`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: new URLSearchParams({
-            request_id: requestId
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Check if request is completed
-        if (data.status === '200') {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('status').innerHTML = `Done. <a href="${url}" target="_blank">View Generated HTML</a>`;
-        } else {
-            // Show fetch again prompt
-            document.getElementById('fetchAgainPrompt').style.display = 'block';
-            document.getElementById('fetchAgainYes').addEventListener('click', function() {
-                // Hide fetch again prompt
-                document.getElementById('fetchAgainPrompt').style.display = 'none';
-                // Proceed with fetching again
-                document.getElementById('loading').style.display = 'block';
-                fetchAgain();
-            });
-
-            document.getElementById('fetchAgainNo').addEventListener('click', function() {
-                // Hide fetch again prompt
-                document.getElementById('fetchAgainPrompt').style.display = 'none';
-                // Inform the user
-                document.getElementById('status').innerText = 'Data already fetched.';
-            });
+    <script>
+        function vibrate() {
+            // Check if the vibration API is supported
+            if ("vibrate" in navigator) {
+                // Vibrate for 1000ms (1 second)
+                navigator.vibrate(1000);
+            } else {
+                console.log("Vibration not supported");
+            }
         }
-    })
-    .catch(error => console.error('Error:', error));
-}
-
-function fetchAgain() {
-    fetch(`${api_url}/generate_id`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: new URLSearchParams({
-            SHOP_URL: '',
-            API_KEY: ''
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Request ID received, now check status periodically
-        const requestId = data.request_id;
-        const url = data.url;
-        checkStatus(requestId, url);
-    })
-    .catch(error => console.error('Error:', error));
-}
-</script>
+    </script>
 </body>
 </html>
