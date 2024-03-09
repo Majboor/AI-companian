@@ -196,12 +196,20 @@ submitPersonalityEditButton.addEventListener("click", () => {submitPersonalityEd
 sendMessageButton.addEventListener("click", run);
 
 //enter key to send message but support shift+enter for new line
+let running = false;
+
 messageInput.addEventListener("keydown", (e) => {
-    if (e.key == "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        run();
+    if (e.key === "Enter" && !e.shiftKey) {
+        if (!running) {
+            e.preventDefault();
+            running = true;
+            run().then(() => {
+                running = false;
+            });
+        }
     }
 });
+
 
 whatsNewButton.addEventListener("click", showWhatsNew);
 
