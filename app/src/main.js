@@ -1310,16 +1310,34 @@ if (selectedPersonalityTitle === `Shopify SEO`) {
     sendMessageButton.style.display = "none";
     loadingSpinner.style.display = "block";
 
-    const result = await chat.sendMessageStream(msgText);
+    const result = await chat.sendMessageStream(msgText); 
+let variable1 = `
+            <h3 class="message-role">${selectedPersonalityTitle}:</h3>
+            <div class="message-role-api" style="display: none;">model</div>
+            <p class="message-text">`;
+
+// Counting words in msgText
+let wordCount = msgText.split(/\s+/).length;
+
+// Checking if the word count is more than 10
+if (wordCount > 10) {
+    // Changing the value of variable1
+    variable1 = `
+            <h3 class="message-role" style="color: red;">${selectedPersonalityTitle}:</h3>
+            <div class="message-role-api" style="display: none;">model</div>
+            <p class="message-text">`;
+}
+
+// Now variable1 contains the appropriate value based on the word count in msgText
+console.log(variable1);
+
 
     //create new message div for the model's reply then append to message container's top
     const newReply = document.createElement("div");
     newReply.classList.add("message");
     newReply.classList.add("message-model");
     newReply.innerHTML = `
-            <h3 class="message-role">${selectedPersonalityTitle}:</h3>
-            <div class="message-role-api" style="display: none;">model</div>
-            <p class="message-text">`;
+            ${variable1}`;
 
     //get the p element inside the message div
     const replyText = newReply.querySelector(".message-text");
