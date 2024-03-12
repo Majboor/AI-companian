@@ -1,21 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Vibration Example</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Haptic Feedback Example</title>
 </head>
 <body>
-    <button onclick="vibrate()">Vibrate</button>
+  <button onclick="triggerHapticFeedback()">Trigger Haptic Feedback</button>
 
-    <script>
-        function vibrate() {
-            // Check if the vibration API is supported
-            if ("vibrate" in navigator) {
-                // Vibrate for 1000ms (1 second)
-                navigator.vibrate(1000);
-            } else {
-                console.log("Vibration not supported");
-            }
-        }
-    </script>
+  <script>
+    // Define a function to trigger haptic feedback
+    function triggerHapticFeedback() {
+      // Check if Capacitor exists and Haptics plugin is available
+      if (window.Capacitor && Capacitor.Plugins && Capacitor.Plugins.Haptics) {
+        // Trigger haptic feedback
+        Capacitor.Plugins.Haptics.vibrate();
+      } else {
+        // Capacitor or Haptics plugin not available
+        console.error("Capacitor or Haptics plugin not available.");
+      }
+    }
+  </script>
+
+  <!-- Capacitor core script -->
+  <script src="https://cdn.jsdelivr.net/npm/@capacitor/core@latest/dist/capacitor.js"></script>
 </body>
 </html>
