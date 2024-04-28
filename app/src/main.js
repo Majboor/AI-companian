@@ -40,6 +40,50 @@ const tabHighlight = document.querySelector(".navbar-tab-highlight");
 //misc
 const badge = document.querySelector("#btn-whatsnew");
 
+
+
+
+
+
+
+
+
+$(document).ready(function() {
+    $("#btn-accept-tutorial").click(function() {
+      $(".notification-bar").fadeOut();
+      // Start Intro.js tour
+      startIntroJs();
+    });
+
+    $("#btn-decline-tutorial").click(function() {
+      $(".notification-bar").fadeOut();
+    });
+
+    // Function to start Intro.js tour
+    function startIntroJs() {
+        introJs('.container').setOptions({
+            steps: [{
+              intro: "Step 1 of the tour."
+            }, {
+              element: document.querySelector("#btn-submit-personality"), // Targeting the sidebar section
+              intro: "Step 2: This is the sidebar section.",
+              position: 'right' // Position the tooltip to the right of the element
+            }, {
+              element: document.querySelector('#btn-add-personality'), // Targeting the "Create Your Own Style" button
+              intro: "Step 3: This is the 'Create Your Own Style' button.",
+              position: 'bottom' // Position the tooltip below the element
+            },
+            {
+              element: document.querySelector("#btn-import-personality"), // Targeting the "Create Your Own Style" button
+              intro: "Step 3: This is the 'Create Your Own Style' button.",
+              position: 'bottom' // Position the tooltip below the element
+            }
+          
+          ]
+          }).start();
+    }
+  });
+
 //-------------------------------
 
 //load api key from local storage into input field
@@ -152,12 +196,20 @@ submitPersonalityEditButton.addEventListener("click", () => {submitPersonalityEd
 sendMessageButton.addEventListener("click", run);
 
 //enter key to send message but support shift+enter for new line
+let running = false;
+
 messageInput.addEventListener("keydown", (e) => {
-    if (e.key == "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        run();
+    if (e.key === "Enter" && !e.shiftKey) {
+        if (!running) {
+            e.preventDefault();
+            running = true;
+            run().then(() => {
+                running = false;
+            });
+        }
     }
 });
+
 
 whatsNewButton.addEventListener("click", showWhatsNew);
 
@@ -312,6 +364,192 @@ function showStylizedPopup() {
         document.getElementById('btnClose').addEventListener('click', closePopup);
     }
 }
+
+function addNewMessage(messageText,title) {
+    const newReplyElement = document.createElement("div");
+    newReplyElement.classList.add("message");
+    newReplyElement.classList.add("message-model");
+    newReplyElement.innerHTML = `
+        <h3 class="message-role">${title}:</h3>
+        <div class="message-role-api" style="display: none;">model</div>
+        <p class="message-text">${messageText}</p>`;
+
+    // Get the p element inside the message div
+    const replyTextElement = newReplyElement.querySelector(".message-text");
+
+    messageContainer.insertBefore(newReplyElement, messageContainer.firstChild);
+    // loadingSpinner.style.display = "none";
+
+    // let rawTextContent = "what is your shopify admin key?"; // Set your hardcoded message here
+    // replyTextElement.innerHTML = DOMPurify.sanitize(marked.parse(rawTextContent));
+    void replyTextElement.offsetHeight; // Force reflow
+    hljs.highlightAll();
+}
+// Declare a global variable to store the input value
+let api_key_shopify;
+let shopify_admin_url;
+async function config_shopify() {
+    return new Promise((resolve, reject) => {
+        // Create popupContainer dynamically
+        const popupContainer = document.createElement('div');
+        popupContainer.id = 'popupContainer';
+        popupContainer.className = 'popup-container';
+        
+        // Create popupContent dynamically
+        const popupContent = document.createElement('div');
+        popupContent.id = 'popupContent';
+        popupContent.className = 'popup-content';
+
+        // Add popupContent to popupContainer
+        popupContainer.appendChild(popupContent);
+
+        // Show the popup
+        popupContainer.style.display = 'flex';
+
+        // Add popupContainer to the body
+        document.body.appendChild(popupContainer);
+
+        // Function to close popup
+        function closePopup() {
+            popupContainer.style.display = 'none';
+            resolve(); // Resolve the promise when the popup is closed
+        }
+
+        // Function to show Step 1 content
+        function showStep1() {
+            popupContent.innerHTML = `
+                <h2>Configure Your shopify ADMIN API</h2>
+                <p>You can find the api in your shopify settings tab</p>
+                <input type="text" id="textInput">
+                <button id="btnNext" class="btn-next">Next</button>                
+            `;
+            document.getElementById('btnNext').addEventListener('click', function() {
+                // Get the value from the input field and store it in variable1
+                api_key_shopify = document.getElementById('textInput').value;
+                showStep2();
+            });     
+        }
+
+        // Function to show Step 2 content
+        function showStep2() {
+            popupContent.innerHTML = `
+                <h2>what is your shopify url</h2>
+                <p>you can find the url at</p>
+                <input type="text" id="textinput">
+                <button id="btnNext" class="btn-next">Next</button>                
+            `;
+            document.getElementById('btnNext').addEventListener('click', function() {
+                // Get the value from the input field and store it in variable1
+                shopify_admin_url = document.getElementById('textinput').value;
+                showStep3();
+            });         
+        }
+
+        // Function to show Step 3 content
+        function showStep3() {
+            const api_url = 'https://penapi.techrealm.pk';
+            popupContent.innerHTML = `
+                <h2>Configured properly</h2>
+                <p>By clicking on Fetch Products you will allow us to fetch all products</p>
+                <button id="btnClose" style="display:none;" class="btn-close">Close</button>
+                <button id="Fetchprods" style="display:block;" class="fetch-products">Fetch Products</button>
+                <div class="loaderFetch" style="display:none;"></div>
+            `;
+        
+            document.getElementById('Fetchprods').addEventListener('click', function() {
+                // Hide the Fetch Products button and show the loading spinner                
+                document.getElementById('Fetchprods').style.display = 'none';
+                document.querySelector('.loaderFetch').style.display = 'block';
+        
+                fetch(`${api_url}/generate_id`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        SHOP_URL: shopify_admin_url,
+                        API_KEY: api_key_shopify
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const requestId = data.request_id;
+                    const url = data.url;
+                    console.log(url); // Display URL in the console
+                    checkStatus(requestId, url);
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        
+            function checkStatus(requestId, url) {
+                fetch(`${api_url}/check_status`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        request_id: requestId
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Check if request is completed
+                    if (data.status === '200') {
+                        // Show the Close button
+                        document.getElementById('btnClose').style.display = 'block';
+                        console.log(url);
+                        addNewMessage(url,'seo');
+                    } else {
+                        console.log("else executed");
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        
+            document.getElementById('btnClose').addEventListener('click', closePopup);
+        
+        
+            
+            // You can use variable1 here
+            console.log("Variable 1:", api_key_shopify);
+            console.log("Variable 2:", shopify_admin_url);
+
+
+
+
+
+
+
+
+
+        }
+
+        // Initially show Step 1 content
+        showStep1();
+    });
+}
+
+// Usage
+
+
+
+
+
+// Call the main function
+// main();
+
+
+// Usage
+
+
+
+// Usage
+
+
+
+// Call the function to show the popup
+
+
 
 function navigateTo(tab) {
     if (tab == tabs[currentTab]) {
@@ -575,6 +813,19 @@ if (window.location.hash === '#midjourney' && personalityJSON.name === `Mid Jour
     showStylizedPopup();
 }
 
+// Mid journey
+if (window.location.hash === '#Essayoutline' && personalityJSON.name === `Essay Outline Generator`) {
+    // Call custom popup function
+    personalityCard.click();
+    showStylizedPopup();
+}
+
+// SEO companian
+if (window.location.hash === '#seo' && personalityJSON.name === `Shopify SEO`) {
+    // Call custom popup function
+    personalityCard.click();
+    showStylizedPopup();
+}
 
 
 }
@@ -681,7 +932,7 @@ function showWhatsNew() {
     showElement(whatsNewDiv);
 }
 
-async function run() {
+async function run() {   
     const msg = document.querySelector("#messageInput");
     let msgText = getSanitized(msg.value);
     console.log(msgText)
@@ -715,6 +966,36 @@ async function run() {
     })
     //reverse order of chat history
     chatHistory.reverse();
+    console.log(chatHistory)
+
+    let userPrompts = [];
+    function addValueAndLog(newValue) {
+        const previousLength = userPrompts.length; // Get the previous length of the array
+        userPrompts.push(newValue); // Add the new value to the array
+        const newLength = userPrompts.length; // Get the new length of the array
+    
+        // Check if the length has increased
+        if (newLength > previousLength) {
+            console.log("New value added:", newValue); // Log the new value
+        }
+    }
+    
+
+
+
+chatHistory.forEach((message, index) => {
+    if (message.role === 'user') {
+        console.log('recieved and logging')
+        const promptNumber = Math.floor(index / 2) + 1;
+        const promptText = `prompt ${promptNumber}`;
+        addValueAndLog({ [promptText]: message.parts[0].text });
+    }
+});
+
+console.log(userPrompts);
+
+
+
 
 
 
@@ -948,6 +1229,28 @@ async function run() {
     talk about the Settings go step by step and detail about each setting. I know that I can use multi page courasals cut on pages but not more than fifty words on each page. I am supposed to make a tutorial not just spit out I start by explaining then expand as the page expands following the format I will write all pages if the user has given a topic to write about then write but if not then ask the user for a topic ${msgText} `;
 }
 
+if (selectedPersonalityTitle === `Essay Outline Generator`) {
+    text1 = `You are an AI bot, named Essay Outline Generator made to write only  and write speech as a helpful essay outline generator do not reply with anything else.this is the current date if needed while writing ${systemPrompt}`;
+    text2 = `Okay. From now on, I will be ${selectedPersonalityTitle} I will follow the steps and will not say anything else${steps} The users message says ${msgText} `;
+}
+
+if (selectedPersonalityTitle === `Shopify SEO`) {
+    console.log("hello")   
+
+    
+    // Call the function with your desired message text
+    addNewMessage("Please Configure your settings",selectedPersonalityTitle);
+    await config_shopify().then(() => {
+        console.log("config_shopify function executed successfully.");
+        // Proceed with further code execution
+    });
+        
+    
+// console.log(key)
+
+    text1 = `You are an AI bot, named Essay Outline Generator made to write only  and write speech as a helpful essay outline generator do not reply with anything else.this is the current date if needed while writing ${systemPrompt}`;
+    text2 = `Okay. From now on, I will be ${selectedPersonalityTitle} I will follow the steps and will not say anything else${steps} The users message says ${msgText} `;
+}
 
 
 
@@ -961,6 +1264,9 @@ async function run() {
 
 
 
+
+
+//-------------------------------
 
     const chat = model.startChat({
         generationConfig, safetySettings,
@@ -979,7 +1285,9 @@ async function run() {
     })
 
     //create new message div for the user's message then append to message container's top
+    
     const newMessage = document.createElement("div");
+    const loadingSpinner = document.querySelector("#loadingSpinner");
     console.log(`you are a writing bot made to write in the writing style: ${selectedPersonalityTitle}, you can only do the following actions: ${steps} you are to make the user learn about: ${teach}. ${systemPrompt}`);
     newMessage.classList.add("message");
     newMessage.innerHTML = `
@@ -988,23 +1296,56 @@ async function run() {
             <p class="message-text">${msgText}</p>
             `;
     messageContainer.insertBefore(newMessage, messageContainer.firstChild);
+    function handleEnterKeyPress(event) {
+        // Check if Enter key is pressed and loading spinner is visible
+        if (event.key === 'Enter' && loadingSpinner.style.display === "block") {
+            console.log("Enter is blocked because loading spinner is visible");
+            // Prevent default behavior of Enter key press
+            event.preventDefault();
+        }
+    }
+    
+    // Add event listener for Enter key press
+    document.addEventListener('keydown', handleEnterKeyPress);
+    sendMessageButton.style.display = "none";
+    loadingSpinner.style.display = "block";
 
-    const result = await chat.sendMessageStream(msgText);
+    const result = await chat.sendMessageStream(msgText); 
+let variable1 = `
+            <h3 class="message-role">${selectedPersonalityTitle}:</h3>
+            <div class="message-role-api" style="display: none;">model</div>
+            <p class="message-text">`;
+
+// Counting words in msgText
+let wordCount = msgText.split(/\s+/).length;
+
+// Checking if the word count is more than 10
+if (wordCount > 10) {
+    // Changing the value of variable1
+    variable1 = `
+            <h3 class="message-role" style="color: red;">${selectedPersonalityTitle}:</h3>
+            <div class="message-role-api" style="display: none;">model</div>
+            <p class="message-text">`;
+}
+
+// Now variable1 contains the appropriate value based on the word count in msgText
+console.log(variable1);
+
 
     //create new message div for the model's reply then append to message container's top
     const newReply = document.createElement("div");
     newReply.classList.add("message");
     newReply.classList.add("message-model");
     newReply.innerHTML = `
-            <h3 class="message-role">${selectedPersonalityTitle}:</h3>
-            <div class="message-role-api" style="display: none;">model</div>
-            <p class="message-text">`;
+            ${variable1}`;
 
     //get the p element inside the message div
     const replyText = newReply.querySelector(".message-text");
 
 
     messageContainer.insertBefore(newReply, messageContainer.firstChild);
+    sendMessageButton.style.display = "block";
+    loadingSpinner.style.display = "none";
 
     let rawText = "";
     for await (const chunk of result.stream) {
@@ -1019,6 +1360,8 @@ async function run() {
     localStorage.setItem("API_KEY", API_KEY.value);
     localStorage.setItem("maxTokens", maxTokens.value);
 
+
+   
 }
 
 
@@ -1210,4 +1553,45 @@ const midJourneyPromptCreatorPersonality = {
 // Call the insertPersonality function with the new Mid Journey Prompt Creator personality object
 insertPersonality(midJourneyPromptCreatorPersonality);
 
+// add a personality here
 
+
+// Get the Essay Outline Generator personality HTML element
+const essayOutlineGeneratorPersonalityElement = document.getElementById("essayOutlineGeneratorPersonality");
+
+// Extract the necessary information
+const essayOutlineGeneratorPersonalityName = essayOutlineGeneratorPersonalityElement.querySelector(".personality-title").innerText;
+const essayOutlineGeneratorPersonalityDescription = essayOutlineGeneratorPersonalityElement.querySelector(".personality-description").innerText;
+const essayOutlineGeneratorPersonalityPrompt = essayOutlineGeneratorPersonalityElement.querySelector(".personality-prompt").innerText;
+const essayOutlineGeneratorPersonalityImageURL = ""; // Extract image URL if it's set in the HTML
+
+// Create a JavaScript object representing the Essay Outline Generator personality
+const essayOutlineGeneratorPersonality = {
+    name: essayOutlineGeneratorPersonalityName,
+    description: essayOutlineGeneratorPersonalityDescription,
+    prompt: essayOutlineGeneratorPersonalityPrompt,
+    image: essayOutlineGeneratorPersonalityImageURL // Set this to the actual image URL if it's available in the HTML
+};
+
+// Call the insertPersonality function with the new Essay Outline Generator personality object
+insertPersonality(essayOutlineGeneratorPersonality);
+
+// Get the Shopify SEO personality HTML element
+const shopifySEOPersonalityElement = document.getElementById("shopifySEOPersonality");
+
+// Extract the necessary information
+const shopifySEOPersonalityName = shopifySEOPersonalityElement.querySelector(".personality-title").innerText;
+const shopifySEOPersonalityDescription = shopifySEOPersonalityElement.querySelector(".personality-description").innerText;
+const shopifySEOPersonalityPrompt = shopifySEOPersonalityElement.querySelector(".personality-prompt").innerText;
+const shopifySEOPersonalityImageURL = ""; // Extract image URL if it's set in the HTML
+
+// Create a JavaScript object representing the Shopify SEO personality
+const shopifySEOPersonality = {
+    name: shopifySEOPersonalityName,
+    description: shopifySEOPersonalityDescription,
+    prompt: shopifySEOPersonalityPrompt,
+    image: shopifySEOPersonalityImageURL // Set this to the actual image URL if it's available in the HTML
+};
+
+// Call the insertPersonality function with the new Shopify SEO personality object
+insertPersonality(shopifySEOPersonality);
