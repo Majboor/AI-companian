@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Widget</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+</head>
+
+<body>
+
+<!-- Chat widget button with SVG icon -->
+<div class="chat-widget-button" id="chatWidgetButton">
+    <img src="https://zuhd.store/cdn/shop/files/header-logo.svg?v=1676959879&width=560" alt="Chat Icon">
+</div>
+<input type="file" id="uploadInput" accept="image/png" style="display: none;">
+<button onclick="openFileUploader()">Upload Icon</button>
+
+<script>function openFileUploader() {
+    const fileInput = document.getElementById('uploadInput');
+    const chatIcon = document.getElementById('chatWidgetButton').querySelector('img');
+
+    fileInput.onchange = function() {
+        const file = fileInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                chatIcon.src = e.target.result;
+            };
+
+            reader.readAsDataURL(file);
+        }
+    };
+
+    fileInput.click();
+}</script>
+
+<input type="color" id="colorPicker">
+<button id="applyColor">Apply Color</button>
+<script>
+document.getElementById('applyColor').addEventListener('click', function() {
+    var color = document.getElementById('colorPicker').value;
+    document.querySelector('.chat-widget-button').style.backgroundColor = color;
+});
+</script>
+<!-- Chat widget container -->
+<iframe src="https://penpal.techrealm.pk/app/index.html" class="chat-widget-container" id="chatWidgetContainer" frameborder="0"></iframe>
+
+<!-- Your other content goes here -->
+
+<script src="script.js"></script> <!-- Link to your JavaScript file -->
+</body>
+</html>
