@@ -17,7 +17,14 @@
     <link href="https://unpkg.com/intro.js/introjs.css" rel="stylesheet">
 <!-- Include Notify.js CSS -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/styles/metro/notify-metro.css" rel="stylesheet">
-
+<style>
+    body {
+        width: 300px;
+        height: 400px;
+        margin: 0;
+        overflow: auto; /* Allows scrolling if content exceeds 400px in height */
+    }
+</style>
 </head>
 
 
@@ -33,7 +40,7 @@
 <!-- Include Intro.js JavaScript -->
 <script src="https://unpkg.com/intro.js/intro.js"></script>
 
-    <div class="notification-bar">
+    <!-- <div class="notification-bar">
         <div class="message">
           Do you want an app tutorial?
         </div>
@@ -41,7 +48,7 @@
           <button id="btn-accept-tutorial">✓</button>
           <button id="btn-decline-tutorial">✗</button>
         </div>
-      </div>
+      </div> -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.js"></script>
 <!-- Include Intro.js JavaScript -->
 
@@ -54,12 +61,10 @@
                 </button>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/Google_Bard_logo.svg" id="gemin-pro-logo">
                 <div id="title-div">
-                    <div id="zodiac-branding">Writer </div>
-                    <div id="gemini-pro-branding">Powered By Gemini Pro</div>
+                    <div id="zodiac-branding">Talky AI</div>
+                    <div id="gemini-pro-branding">Powered By TechRealm AI</div>
                 </div>
-                <button class="badge" id="btn-whatsnew">
-                    <span id="badge-version"></span>
-                </button>
+                
             </div>
             <div class="navbar">
                 <div class="navbar-tab">Personalities</div>
@@ -88,13 +93,10 @@
         <div style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.fonearena.com/blog/wp-content/uploads/2023/12/Google-Gemini-AI-1024x577.jpg')">
             <h3 class="personality-title">Creative Writing</h3>
             <p class="personality-description">
-            Let Your Creativity Explode, learn grow create!</p>
-            <p class="personality-prompt">how to write creatively</p>
+                Let Your Creativity Explode, learn grow create</p>
+            <p class="personality-prompt">An AI made for a Shoe Company</p>
         </div>
-        <button class="btn-textual btn-edit-card material-symbols-outlined" id="btn-edit-personality-myPersonality">edit</button>
-        <button class="btn-textual btn-share-card material-symbols-outlined" id="btn-share-personality-myPersonality">share</button>
-        <button class="btn-textual btn-delete-card material-symbols-outlined" id="btn-delete-personality-myPersonality">delete</button>
-    </label>
+         </label>
 </div>
 
 <!-- Summarizer personality card -->
@@ -106,10 +108,7 @@
             <p class="personality-description">Summarize the main points and key info from any text or article.</p>
             <p class="personality-prompt">Think about this prompt.</p>
         </div>
-        <button class="btn-textual btn-edit-card material-symbols-outlined" id="btn-edit-personality-Summarizer">edit</button>
-        <button class="btn-textual btn-share-card material-symbols-outlined" id="btn-share-personality-Summarizer">share</button>
-        <button class="btn-textual btn-delete-card material-symbols-outlined" id="btn-delete-personality-Summarizer">delete</button>
-    </label>
+      </label>
 </div>
 
 <!-- Explain Like I'm 5 personality card -->
@@ -121,9 +120,6 @@
             <p class="personality-description">Take a complex topic and simplify it to make it easier to understand.</p>
             <p class="personality-prompt">Think about this prompt.</p>
         </div>
-        <button class="btn-textual btn-edit-card material-symbols-outlined" id="btn-edit-personality-Explain Like I'm 5">edit</button>
-        <button class="btn-textual btn-share-card material-symbols-outlined" id="btn-share-personality-Explain Like I'm 5">share</button>
-        <button class="btn-textual btn-delete-card material-symbols-outlined" id="btn-delete-personality-Explain Like I'm 5">delete</button>
     </label>
 </div>
 
@@ -136,10 +132,7 @@
             <p class="personality-description">Rewrite content in a different way, while keeping the same meaning.</p>
             <p class="personality-prompt">Think about this prompt.</p>
         </div>
-        <button class="btn-textual btn-edit-card material-symbols-outlined" id="btn-edit-personality-Rewrite Content">edit</button>
-        <button class="btn-textual btn-share-card material-symbols-outlined" id="btn-share-personality-Rewrite Content">share</button>
-        <button class="btn-textual btn-delete-card material-symbols-outlined" id="btn-delete-personality-Rewrite Content">delete</button>
-    </label>
+         </label>
 </div>
 
 <!-- Email Responder personality card -->
@@ -151,10 +144,7 @@
             <p class="personality-description">Based on an email and short response, get a well-written reply.</p>
             <p class="personality-prompt">Think about this prompt.</p>
         </div>
-        <button class="btn-textual btn-edit-card material-symbols-outlined" id="btn-edit-personality-Email Responder">edit</button>
-        <button class="btn-textual btn-share-card material-symbols-outlined" id="btn-share-personality-Email Responder">share</button>
-        <button class="btn-textual btn-delete-card material-symbols-outlined" id="btn-delete-personality-Email Responder">delete</button>
-    </label>
+         </label>
 </div>
 
 <!-- Magic Editor personality card -->
@@ -166,10 +156,7 @@
             <p class="personality-description">Edit a document or message to improve its clarity, tone, and style.</p>
             <p class="personality-prompt">Think about this prompt.</p>
         </div>
-        <button class="btn-textual btn-edit-card material-symbols-outlined" id="btn-edit-personality-Magic Editor">edit</button>
-        <button class="btn-textual btn-share-card material-symbols-outlined" id="btn-share-personality-Magic Editor">share</button>
-        <button class="btn-textual btn-delete-card material-symbols-outlined" id="btn-delete-personality-Magic Editor">delete</button>
-    </label>
+     </label>
 </div>
 
 <!-- AI Speech Writer personality card -->
@@ -181,10 +168,7 @@
             <p class="personality-description">Generate a speech using an outline or description, topic, and sources or quotes.</p>
             <p class="personality-prompt">Think about this prompt.</p>
         </div>
-        <button class="btn-textual btn-edit-card material-symbols-outlined" id="btn-edit-personality-AI Speech Writer">edit</button>
-        <button class="btn-textual btn-share-card material-symbols-outlined" id="btn-share-personality-AI Speech Writer">share</button>
-        <button class="btn-textual btn-delete-card material-symbols-outlined" id="btn-delete-personality-AI Speech Writer">delete</button>
-    </label>
+        </label>
 </div>
 
 <!-- AI Writer personality card -->
@@ -252,43 +236,28 @@
 
 
 
+</label>
 
-
-                        <button class="btn-textual btn-edit-card material-symbols-outlined"
-                            id="btn-edit-personality-default">edit</button>
-                        <button class="btn-textual btn-share-card material-symbols-outlined"
-                            id="btn-share-personality-default">share</button>
-                    </label>
+                    
                     <div id="personalitiesDiv"></div>
-                    <div class="btn-array" id="btn-array-personality-section">
-                        <button id="btn-add-personality">Create Your Own Style</button>
-                        <button id="btn-import-personality">Import</button>
-                        <button id="btn-clearall-personality">Clear All</button>
-                    </div>
+                 
+                    
                 </div>
              
 
                 <div class="sidebar-section">
-                    <input type="text" placeholder="Paste API key here" id="apiKeyInput" class="input-field"></input>
                     <h3>Step 1. Find a topic</h3>
-                    <label for="maxTokens">Max Output Tokens:</label>
-                    <input type="number" id="maxTokens" class="input-field" min="1" max="4000" value="1000"></input>
-                    <label for="safetySettings">Safety Settings:</label>
-                    <select id="safetySettings" class="input-field">
-                        <option value="safe">Safe</option>
-                        <option value="moderate">Moderate</option>
-                        <option value="risky">Risky</option>
-                    </select>
+                    <p>How to Use the APP?</p>
                 </div>
                 
             </div>
 
 
 
-            <div class="credits">
+            <!-- <div class="credits">
                 Made By Waleed Ajmal Built on Zodiac UI
                 <a href="https://github.com/mr.majboor">Source Code</a>
-            </div>
+            </div> -->
         </div>
 
         <div id="mainContent">
@@ -330,20 +299,19 @@
             <button id="btn-submit-personality">Add Personality</button>
         </div>
 
-        <div class="form" id="form-edit-personality">
-            <h1>Edit Personality</h1>
-            <label for="personalityNameInput">Personality Name:</label>
-            <input type="text" placeholder="Personality Name" id="personalityNameInput" class="input-field"></input>
-            <label for="personalityDescriptionInput">Personality Description:</label>
-            <textarea id="personalityDescriptionInput" placeholder="Personality Description"
-                class="prompt-field"></textarea>
-            <label for="personalityImageURLInput">Personality Image URL:</label>
-            <input type="text" placeholder="Personality Image URL" id="personalityImageURLInput"
-                class="input-field"></input>
-            <label for="personalityPromptInput">Prompt:</label>
-            <textarea id="personalityPromptInput" placeholder="Personality Prompt" class="prompt-field"></textarea>
-            <button id="btn-submit-personality-edit">Save</button>
-        </div>
+       <div class="form" id="form-edit-personality" style="font-size: 0.6rem;">
+    <h1>Edit Personality</h1>
+    <label for="personalityNameInput">Name:</label>
+    <input type="text" placeholder="Name" id="personalityNameInput" class="input-field" style="height: 0.02rem;"></input>
+    <label for="personalityDescriptionInput">Description:</label>
+    <textarea id="personalityDescriptionInput" placeholder="Description" class="prompt-field" style="height: 0.02rem;"></textarea>
+    <label for="personalityImageURLInput">Image URL:</label>
+    <input type="text" placeholder="Image URL" id="personalityImageURLInput" class="input-field" style="height: 0.02rem;"></input>
+    <label for="personalityPromptInput">Prompt:</label>
+    <textarea id="personalityPromptInput" placeholder="Prompt" class="prompt-field" style="height: 0.02rem;"></textarea>
+    <button id="btn-submit-personality-edit">Save</button>
+</div>
+
 
         <div id="whats-new">
             <h1 id="header-version">Welcome to </h1>

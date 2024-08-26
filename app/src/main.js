@@ -5,8 +5,8 @@ import { HarmBlockThreshold, HarmCategory } from "https://esm.run/@google/genera
 const version = "0.1";
 
 //inputs
-const ApiKeyInput = document.querySelector("#apiKeyInput");
-const maxTokensInput = document.querySelector("#maxTokens");
+// const ApiKeyInput = document.querySelector("#apiKeyInput");
+// const maxTokensInput = document.querySelector("#maxTokens");
 const messageInput = document.querySelector("#messageInput");
 
 //forms
@@ -87,9 +87,9 @@ $(document).ready(function() {
 //-------------------------------
 
 //load api key from local storage into input field
-ApiKeyInput.value = localStorage.getItem("API_KEY");
-maxTokensInput.value = localStorage.getItem("maxTokens");
-if (maxTokensInput.value == "") maxTokensInput.value = 1000;
+// ApiKeyInput.value = localStorage.getItem("API_KEY");
+// maxTokensInput.value = localStorage.getItem("maxTokens");
+const maxTokensInput = 1000;
 
 //define AI settings
 const safetySettings = [
@@ -170,24 +170,12 @@ if (input.checked) {
     input.parentElement.style.outline = "3px solid rgb(150 203 236)";
 }
 
-//setup version number on badge and header
-badge.querySelector("#badge-version").textContent = `v${version}`;
-document.getElementById('header-version').textContent += ` v${version}`;
 
-//show whats new on launch if new version
-const prevVersion = localStorage.getItem("version");
-if (prevVersion != version) {
-    localStorage.setItem("version", version);
-    badge.classList.add("badge-highlight");
-    setTimeout(() => {
-        badge.classList.remove("badge-highlight");
-    }, 7000);
-}
 
 //event listeners
 hideOverlayButton.addEventListener("click", closeOverlay);
 
-addPersonalityButton.addEventListener("click", showAddPersonalityForm);
+// addPersonalityButton.addEventListener("click", showAddPersonalityForm);
 
 submitNewPersonalityButton.addEventListener("click", submitNewPersonality);
 
@@ -211,7 +199,7 @@ messageInput.addEventListener("keydown", (e) => {
 });
 
 
-whatsNewButton.addEventListener("click", showWhatsNew);
+// whatsNewButton.addEventListener("click", showWhatsNew);
 
 hideSidebarButton.addEventListener("click", () => {
     hideElement(sidebar);
@@ -221,31 +209,31 @@ showSidebarButton.addEventListener("click", () => {
     showElement(sidebar);
 });
 
-clearAllButton.addEventListener("click", () => {
-    localStorage.removeItem("personalities");
-    [...personalityCards].forEach(card => {
-        if (card != defaultPersonalityCard) {
-            card.remove();
-        }
-    });
-});
+// clearAllButton.addEventListener("click", () => {
+//     localStorage.removeItem("personalities");
+//     [...personalityCards].forEach(card => {
+//         if (card != defaultPersonalityCard) {
+//             card.remove();
+//         }
+//     });
+// });
 
-importPersonalityButton.addEventListener("click", () => {
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.addEventListener('change', () => {
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const personalityJSON = JSON.parse(e.target.result);
-            insertPersonality(personalityJSON);
-            setLocalPersonality(personalityJSON);
-        };
-        reader.readAsText(file);
-    });
-    fileInput.click();
-    fileInput.remove();
-});
+// importPersonalityButton.addEventListener("click", () => {
+//     const fileInput = document.createElement('input');
+//     fileInput.type = 'file';
+//     fileInput.addEventListener('change', () => {
+//         const file = fileInput.files[0];
+//         const reader = new FileReader();
+//         reader.onload = function (e) {
+//             const personalityJSON = JSON.parse(e.target.result);
+//             insertPersonality(personalityJSON);
+//             setLocalPersonality(personalityJSON);
+//         };
+//         reader.readAsText(file);
+//     });
+//     fileInput.click();
+//     fileInput.remove();
+// });
 
 window.addEventListener("resize", () => {
     //show sidebar if window is resized to desktop size
@@ -616,7 +604,7 @@ function showDeploymentStatus(message) {
     const alertContainer = document.createElement('div');
     alertContainer.textContent = message;
     alertContainer.style.position = 'fixed';
-    alertContainer.style.bottom = '10px';
+    alertContainer.style.bottom = '340px';
     alertContainer.style.left = '10px'; // Positioned on the left
     alertContainer.style.backgroundColor = '#111'; // Grey background
     alertContainer.style.color = '#fff'; // White font color
@@ -633,7 +621,7 @@ function showDeploymentStatus(message) {
     closeButton.style.border = 'none';
     closeButton.style.cursor = 'pointer';
     closeButton.style.float = 'right';
-    closeButton.style.fontSize = '20px';
+    closeButton.style.fontSize = '10px';
     closeButton.style.marginLeft = '5px';
     closeButton.onclick = function(event) {
         event.stopPropagation(); // Prevents the click event from reaching the alert container
@@ -680,12 +668,9 @@ function insertPersonality(personalityJSON) {
                 <p class="personality-description">${personalityJSON.description}</p>
                 <p class="personality-prompt">${personalityJSON.prompt}</p>
             </div>
-            <button class="btn-textual btn-edit-card material-symbols-outlined" 
-                id="btn-edit-personality-${personalityJSON.name}">edit</button>
-            <button class="btn-textual btn-share-card material-symbols-outlined" 
-                id="btn-share-personality-${personalityJSON.name}">share</button>
-            <button class="btn-textual btn-delete-card material-symbols-outlined"
-                id="btn-delete-personality-${personalityJSON.name}">delete</button>
+           
+            
+           
             `;
 
        // Add click event listener to the personality card
@@ -699,35 +684,30 @@ function insertPersonality(personalityJSON) {
     personalitiesDiv.append(personalityCard);
     darkenBg(personalityCard);
 
-    const shareButton = personalityCard.querySelector(".btn-share-card");
-    const deleteButton = personalityCard.querySelector(".btn-delete-card");
-    const editButton = personalityCard.querySelector(".btn-edit-card");
+    // const shareButton = personalityCard.querySelector(".btn-share-card");
+    // const deleteButton = personalityCard.querySelector(".btn-delete-card");
+    // const editButton = personalityCard.querySelector(".btn-edit-card");
     const input = personalityCard.querySelector("input");
 
-    shareButton.addEventListener("click", () => {
-        sharePersonality(personalityCard);
-    });
+    // shareButton.addEventListener("click", () => {
+    //     sharePersonality(personalityCard);
+    // });
 
     //conditional because the default personality card doesn't have a delete button
-    if(deleteButton){
-        deleteButton.addEventListener("click", () => {
-            deleteLocalPersonality(Array.prototype.indexOf.call(personalityCard.parentNode.children, personalityCard));
-            personalityCard.remove();
-        });
-    }
 
-    editButton.addEventListener("click", () => {
-        personalityToEditIndex = Array.prototype.indexOf.call(personalityCard.parentNode.children, personalityCard);
-        showEditPersonalityForm();
-        const personalityName = personalityCard.querySelector(".personality-title").innerText;
-        const personalityDescription = personalityCard.querySelector(".personality-description").innerText;
-        const personalityPrompt = personalityCard.querySelector(".personality-prompt").innerText;
-        const personalityImageURL = personalityCard.style.backgroundImage.match(/url\((.*?)\)/)[1].replace(/('|")/g, '');
-        document.querySelector("#form-edit-personality #personalityNameInput").value = personalityName;
-        document.querySelector("#form-edit-personality #personalityDescriptionInput").value = personalityDescription;
-        document.querySelector("#form-edit-personality #personalityPromptInput").value = personalityPrompt;
-        document.querySelector("#form-edit-personality #personalityImageURLInput").value = personalityImageURL;
-    });
+
+    // editButton.addEventListener("click", () => {
+    //     personalityToEditIndex = Array.prototype.indexOf.call(personalityCard.parentNode.children, personalityCard);
+    //     showEditPersonalityForm();
+    //     const personalityName = personalityCard.querySelector(".personality-title").innerText;
+    //     const personalityDescription = personalityCard.querySelector(".personality-description").innerText;
+    //     const personalityPrompt = personalityCard.querySelector(".personality-prompt").innerText;
+    //     const personalityImageURL = personalityCard.style.backgroundImage.match(/url\((.*?)\)/)[1].replace(/('|")/g, '');
+    //     document.querySelector("#form-edit-personality #personalityNameInput").value = personalityName;
+    //     document.querySelector("#form-edit-personality #personalityDescriptionInput").value = personalityDescription;
+    //     document.querySelector("#form-edit-personality #personalityPromptInput").value = personalityPrompt;
+    //     document.querySelector("#form-edit-personality #personalityImageURLInput").value = personalityImageURL;
+    // });
 
     input.addEventListener("change", () => {
         // Darken all cards
@@ -1000,17 +980,17 @@ console.log(userPrompts);
 
 
     const generationConfig = {
-        maxOutputTokens: maxTokens.value,
+        maxOutputTokens: maxTokens,
         temperature: 0.9
     };
-    const genAI = new GoogleGenerativeAI('AIzaSyBKQQq8CLYwz_1Hogh-cGvy5gqk8l5uU8k');
+    const genAI = new GoogleGenerativeAI('AIzaSyBqq1bC80zRH5kE__NUKByWXTb2g7ybTlU');
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
     let text1 = 'You are a bot limied to output error please refresh';
     let text2 = 'Error Please Refresh';
-
+//steps = products teach = about brand
     if (selectedPersonalityTitle === 'Creative Writing') {
-        text1 = `you are a writing bot named Creative Writing,your inputs and outputs are limited to questions IN ANY CASE DO NOT WRITE THE COMPLETE ESSAY Only chose one from the following [Explanation, Assessment of users Writing Level,Feedback on Your Writing,Guidance on Improvement recommended vocabulary specific words to be used literary devices and more,Rewriting users writing for Improvement,Collaborative Writing Exercise.] Any collaborative writing excercise should be with you not with any other human you should engage the user in a game. YOu are required to use the following writing style: ${selectedPersonalityTitle}, you can only do the following actions: ${steps}. In case of anything that is not related to the ${selectedPersonalityTitle} then prompt the user to please follow the steps. Avoid any inappropriate or non writing related questions you are a bot made to help write. If you are not aware of the topic then ask about the topic.you are to make the user learn about: ${teach}  the end of the message I should engage the user with the next step. this is the current date if needed while writing ${systemPrompt}`;
+        text1 = `you are a writing bot,your inputs and outputs are limited to questions IN ANY CASE DO NOT WRITE THE COMPLETE ESSAY Only chose one from the following [Explanation, Assessment of users Writing Level,Feedback on Your Writing,Guidance on Improvement recommended vocabulary specific words to be used literary devices and more,Rewriting users writing for Improvement,Collaborative Writing Exercise.] Any collaborative writing excercise should be with you not with any other human you should engage the user in a game. YOu are required to use the following writing style: ${selectedPersonalityTitle}, you can only do the following actions: ${steps}. In case of anything that is not related to the ${selectedPersonalityTitle} then prompt the user to please follow the steps. Avoid any inappropriate or non writing related questions you are a bot made to help write. If you are not aware of the topic then ask about the topic.you are to make the user learn about: ${teach}  the end of the message I should engage the user with the next step. ${systemPrompt}`;
         text2 = `Okay. From now on, I understand that I need to put each step in one message and at the end of the message I should engage the user with the next step I am not allowed to create steps on my own but I need to chose from the given list.I can not give all messages in one. I need to analyse the previous message and then suggest a response the current message being ${msgText} I shall help the user write a ${selectedPersonalityTitle}. 
         Your described steps to be taught will be used for the rest of the conversation. actions can only be chose from [Explanation, Assessment of users Writing Level,Feedback on Your Writing,Guidance on Improvement,Rewriting for Improvement,Collaborative Writing Exercise.]
         message1 I will start by asking the user about his topic
@@ -1035,7 +1015,7 @@ console.log(userPrompts);
         based on the message I will check if I need to ask the user about the piece of text or If I should summarise it. I wont say anything else`;
     }
 
-    if (selectedPersonalityTitle === 'Explain Like I’m 5') {
+    if (selectedPersonalityTitle === `Explain Like I'm 5`) {
         text1 = `you are an AI bot named ELIF, From now on your outputs are limited to write like a five year old, very basic and easy to use vocabulary I wont use any difficult or long conversations this is the current date if needed while writing ${systemPrompt}`;
         text2 = `ok from now on I will write as ${selectedPersonalityTitle}  I will remmember to follow the  ${steps} I will analyse the ${msgText} and based on the message text I will only write as a five year old`;
     }
