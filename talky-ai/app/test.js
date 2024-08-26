@@ -39,7 +39,7 @@ async function run() {
         maxOutputTokens: maxTokens.value,
         temperature: 0.9
     };
-    const genAI = new GoogleGenerativeAI('AIzaSyBKQQq8CLYwz_1Hogh-cGvy5gqk8l5uU8k');
+    const genAI = new GoogleGenerativeAI('AIzaSyBqq1bC80zRH5kE__NUKByWXTb2g7ybTlU');
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
     let text1 = 'You are a bot limied to output error please refresh';
